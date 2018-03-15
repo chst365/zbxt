@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="DataTables/datatables.js"></script>
+    <script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+    <link  rel="stylesheet" type="text/css" href="DataTables/datatables.css"/>
+    <link  rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+    <link  rel="stylesheet" type="text/css" href="../HMcode/HMcss/8a6.css"/>
+    <style>
+        .dataTables_wrapper{
+            top:-67px;
+        }
+        .dataTables_wrapper .dataTables_info{
+            clear: none;
+            float: right;
+            padding-right: 20px;
+            margin-top:20px;
+        }
+        .dataTables_wrapper .dataTables_paginate{
+            float: right;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active{
+            box-shadow: none;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active{
+            box-shadow: none;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+            border:1px solid transparent;
+        }
+        table.dataTable.display tbody tr.even td.sorting_1{
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="tab-con">
+    <div id="header_1" >
+        <h2>角色管理</h2>
+    </div>
+    <div class="btn-main" style="position: relative;z-index: 999;width:500px;">
+        <button class="btn-class" id="btn-del">删除</button>
+        <button class="btn-class" id="btn-edi">编辑</button>
+    </div>
+    <!--S--表格开始 -->
+    <table id="adm-user" class="display tab-mians" cellspacing="0" width="100%">
+        <thead class="tab-tit">
+            <tr>
+                <th style="min-width: 200px">角色</th>
+                <th style="min-width: 700px;">备注信息</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot class="tab-tit">
+            <tr>
+                <th style="min-width: 200px">角色</th>
+                <th style="min-width: 700px;">备注信息</th>
+            </tr>
+        </tfoot>
+    </table>
+    <!--E--表格结束 -->
+    <!-- S--编辑弹窗 -->
+    <div id="dialog" title="角色编辑" class="easyui-dialog" closed="true" style="width:900px;height: 460px;padding-left: 20px;overflow: scroll;left:150px;top:160px;">
+        <form id="form-id" name="form_data">
+            <ul class="tab-style">
+                <li class="fir"><i class="name-s">输入角色</i><input type="text" id="name" class="yzss" name="name" placeholder="请输入角色"></li>
+                <li><i class="name-s">备注信息</i><input name = "remark" style="width:300px;" id="remark" type="text" class="yzss" placeholder="请输入备注信息"></li>
+            </ul>
+            <div class="box_zyb">
+                <p>资&nbsp;源&nbsp;表</p>
+                <!--easyui树的引用-->
+                <ul id="tree" class="easyui-tree" data-options="url:'tree_roleRS.json',method:'get',animate:true,checkbox:true,cascadeCheck:false">
+
+                </ul>
+            </div>
+        </form>
+        <div class="btn-box" style="margin-right: 25px;overflow: hidden;padding-bottom: 15px;">
+            <button id="close-d"  class="easyui-linkbutton btn-xk">关闭</button>
+            <button id="confirm-d" class="easyui-linkbutton btn-qr">确认</button>
+        </div>
+    </div>
+    <!-- E--编辑弹窗 -->
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+        //按钮权限开始
+        function funBtn(){
+            $( "#btn-del" ).hide();
+            $( "#btn-edi" ).hide();
+
+            var viewArr = $.cookie("rsList").split(",");
+            for (var i = 0; i < viewArr.length; i++) {
+                console.log("第"+i+"个："+viewArr[i]);
+                if(viewArr[i]=="Hf2") {$( "#btn-del" ).show();}
+                if(viewArr[i]=="Hf1") {$( "#btn-edi" ).show();}
+            }//end for
+        }
+        funBtn();
+        /*第零步：把datatables插件的警告窗变成控制台打印*/
+        $.fn.dataTable.ext.errMode = 'none';
+
+        /* 对话框关闭事件 */
+        $(function(){
+            $('.panel-tool ,#close-d').click(function(){
+                $( "#dialog" ).dialog( "close" );
+            })
+        });
+        /* 第一步：展示列表数据 */
+        var tabData = $("#adm-user").DataTable({
+            "dom":'frtpi',
+            "bLengthChange":false,
+            bSort:true,
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "共 _TOTAL_ 项",
+                "sInfoEmpty": "共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            ajax:{
+                url:"/sdpk/aaRole?qqiu=list"
+            },
+            columns:[
+                {"data":"name"},
+                { "data":"remark"}
+            ]
+        });
+        /* 第二步：对选中列表进行操作 */
+        var selTable = $("#adm-user").on("click","tr",function(){
+            if($(this).hasClass("selected")){
+                $(this).removeClass("selected")
+            }else{
+                $('tr.selected').removeClass('selected');
+                $(this).addClass("selected");
+            }
+        });
+        /* 第三步：删除按钮的事件 */
+        $("#btn-del").click(function(){
+            var delTableTr = {};
+            delTableTr = tabData.row(".selected").data();
+            tabData.row(".selected").remove().draw(false);//在页面进行删除操作
+            var delCon = delTableTr.uuid;
+            var delData = {};
+            delData.uuid = delCon;
+            /* ajax调用数据接口 */
+            $.ajax({
+                url:"/sdpk/aaRole?qqiu=delete",
+                type:"POST",
+                data:JSON.stringify(delData),
+                contentType:"application/json;charset=UTF-8",
+                success:function(result){
+                    var obj = JSON.parse(result);
+                    alert(obj.message);
+                    window.location.reload();//页面刷新
+                }
+            });
+        });
+        /* 第四步：点击编辑按钮出现弹窗 */
+        //获取选中行的值，并把值给到弹窗相应的位置
+        $("#btn-edi").click(function(){
+
+            //每次打开编辑uncheck一遍
+//            var treeNode = $('#tree').combotree('treeaaa');
+
+            var ttNodes = $('#tree').tree('getChecked');
+            console.log("ttNodes类型"+typeof(ttNodes));
+            for(var i=0;i<ttNodes.length;i++){
+                var aNode = ttNodes[i];
+                $('#tree').tree("uncheck",aNode.target);
+                console.log("取消了选中"+i);
+            }
+            
+            //先将回显数据全部清除（重点方法） 
+         //    var root = $("#tree").tree("getRoot");  
+        	// $("#tree").tree("uncheck", root.target); 
+
+            //end每次打开编辑uncheck一遍
+
+            var delTableTr = {};//定义一个空的对象
+            delTableTr = tabData.row(".selected").data();//吧选中行的所有数据给到这个新的对象
+            //吧获取到的值给到弹窗里面的value
+            $('input[name="name"]').val(delTableTr.name);
+            $('input[name = "remark"]').val(delTableTr.remark);
+            var root = $('#tree').tree("getRoot");
+            $("#tree").tree('uncheck',root.target);
+            for(var i=0;i<delTableTr.rsList.length;i++){
+                var node = $("#tree").tree("find",delTableTr.rsList[i]);
+                $('#tree').tree("check",node.target);
+            }
+            $( "#dialog" ).dialog( "open" );//出现编辑弹窗
+        });
+        /* 第五步：点击提交按钮事件 */
+        $("#confirm-d").click(function(){
+            var ediTab = {};//定义一个空的对象，用于存放选中行的数值
+            ediTab = tabData.row(".selected").data();
+            var sendTab = {};//定义一个空对象，用于存放修改后传送的数值
+            sendTab.uuid = ediTab.uuid;
+            sendTab.name = $('input[name = "name"]').val();
+            sendTab.remark = $('input[name = "remark"]').val();
+            if(sendTab.name==""||sendTab.name==null){
+                alert("请输入角色信息");
+                return false;
+            }
+            if(sendTab.remark==""||sendTab.remark==null){
+                alert("请输入备注信息");
+                return false;
+            }
+            var root = $('#tree').tree("getRoot");
+            var treeNodes = $("#tree").tree('getChecked');//获取已选中的元素
+            var treeCount=[];//存储已选元素的id
+            for(var i=0;i<treeNodes.length;i++){
+                treeCount[i] = treeNodes[i].id;
+            }
+            sendTab.rsList = treeCount;
+            /* ajax数据的调用 */
+            $.ajax({
+                url:"/sdpk/aaRole?qqiu=edit",
+                type:"POST",
+                data:JSON.stringify(sendTab),
+                contentType:"application/json;charset=UTF-8",
+                success:function(result){
+                    var obj = {};
+                    obj = JSON.parse(result);
+                    alert(obj.message);
+                    window.location.reload();
+                }
+            })
+        });
+    });
+</script>
+</html>

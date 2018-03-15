@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>员工展示</title>
+	
+    <script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>  
+
+	<script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="DataTables/datatables.js"></script>
+    <script type="text/javascript" src="DataTables/Buttons-1.4.2/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.cookie.js"></script>
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/icon.css"/>
+    <link   rel="stylesheet" type="text/css" href="DataTables/datatables.css"/>
+    <link   rel="stylesheet" type="text/css" href="DataTables/Buttons-1.4.2/css/buttons.dataTables.css"/>
+    <link rel="stylesheet" type="text/css" href="../HMcode/HMcss/4a2.css">
+
+	
+
+    <!-- <script src="../js/jquery-1.8.2.js" type="text/javascript"></script> -->
+
+    <style>
+        .dataTables_wrapper{
+            margin-top:-67px;
+        }
+        .dataTables_wrapper .dataTables_info{
+            clear: none;
+            float: right;
+            padding-right: 20px;
+            margin-top:20px;
+        }
+        .dataTables_wrapper .dataTables_paginate{
+            float: right;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+            border:1px solid transparent;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active{
+            box-shadow: none;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+            border:1px solid transparent;
+        }
+        table.dataTable.display tbody tr.even td.sorting_1{
+            background-color: white;
+        }
+    </style>
+	<script type="text/javascript">
+
+    $(document).ready(function() {
+        //按钮权限开始
+        function funBtn(){
+            $( "#delbut" ).hide();
+            $( "#opener" ).hide();
+            var viewArr = $.cookie("rsList").split(",");
+            for (var i = 0; i < viewArr.length; i++) {
+//                console.log("第"+i+"个："+viewArr[i]);
+                // if(viewArr[i]=="Db2") {$( "#delbut" ).show();}
+                if(viewArr[i]=="Db1") {$( "#opener" ).show();}
+            }//end for
+        }
+        funBtn();
+        /*第零步：把datatables插件的警告窗变成控制台打印*/
+        $.fn.dataTable.ext.errMode = 'none';
+        var tabShowText;
+    	//步骤1,展示列表数据
+    var table = $('#example').DataTable( {
+        "dom":'frtpi',
+        bSort:true,
+        "bLengthChange":false,
+        language: {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "显示 _MENU_ 项结果",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "共 _TOTAL_ 项",
+            "sInfoEmpty": "共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            },
+        "oAria": {
+            "sSortAscending": ": 以升序排列此列",
+            "sSortDescending": ": 以降序排列此列"
+        }
+    },//国际化语言结束
+        "ajax": "/sdpk/aaEmp?qqiu=list",
+        "columns": [
+            { "data": "name" },
+            { "data": "empNum" },
+            { "data": "phone" },
+            { "data": "depart" },
+            { "data": "job" },
+            // { "data": "permissionTempl" },
+            { "data": "fullhalf" },
+            {
+                "data": null,
+                "searchable": true,
+                "title": "状态"
+            }
+        ],
+        "columnDefs":[{
+            "targets": -1,
+            "data": tabShowText,
+            "name": "状态",
+            "cellType": "th",
+            "orderDataType": "dom-text",
+            "orderSequence": [ "desc","asc", "asc" ],
+            "className": "my_class",
+            "contentPadding": "mmm",
+            "createdCell": function (td, cellData, rowData, row, col) {
+                if ( cellData.openAndclose == 'open' ) {
+                    tabShowText = '已开启';
+                    $(td).context.innerHTML="<button style='color: white;border:none;border-radius: 5px;background-color: #36cb91;line-height: 30px;text-align: center;width: 100px;font-size: 14px;'>"+ tabShowText +"</button>";
+
+                }else{
+                    tabShowText = '已关闭';
+                    $(td).context.innerHTML="<button style='color: white;border:none;border-radius: 5px;background-color: #ff4949;line-height: 30px;text-align: center;width: 100px;font-size: 14px;'>"+ tabShowText +"</button>";
+
+                }
+            }
+
+
+        }]
+    } );//end 步骤1 外圈  $('#example').DataTable
+        //        按钮事件
+        $('#example tbody').on( 'click', 'button', function () {
+            var send_data = {};
+            send_data.uuid = table.row( $(this).parents('tr') ).data().uuid;
+            table.row( $(this).parents('tr') ).data().openAndclose == 'open'?send_data.openAndclose = 'close':send_data.openAndclose = 'open';
+            $.ajax({
+
+                url:"/sdpk/aaEmp?qqiu=on_off",
+                type: "POST",
+                //data: JSON.stringify(param),
+                data: JSON.stringify(send_data),
+                contentType: "application/json;charset=UTF-8",
+                success:function(result){
+                    var obj = JSON.parse(result);
+                    alert(obj.message);
+                    table.row( $(this).parents('tr') ).ajax.reload();
+
+                }
+
+            });//end $.ajax
+        } );
+    //步骤2，列表选择
+    var selectTable = $('#example tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }//end if 
+
+    } );//end 外圈 $('#example tbody').on
+
+    //步骤3，删除按钮单击事件
+    $('#delbut').click( function () {
+
+        //要初始化一个对象，不然会报undifine未定义错误
+        var delRowData = {};
+        //获取选择那一行的数据
+         delRowData = table.row('.selected').data();
+         //获取选择行中的uuid字段
+         var Auuid = delRowData.uuid;
+         
+         //post请求体传给后台的js对象
+         var send_data = {};
+         send_data.uuid = Auuid;
+         // alert( "选择的行的uuid: "+send_data);
+         //调用ajax方法传给后台接口
+         $.ajax({
+				
+				url:"/sdpk/aaEmp?qqiu=delete",
+				type: "POST",
+				//data: JSON.stringify(param),
+				data: JSON.stringify(send_data),
+				contentType: "application/json;charset=UTF-8", 
+				success:function(result){
+                    var obj = JSON.parse(result);
+                    alert(obj.message);
+					window.location.reload();
+
+				}
+			 
+			});//end $.ajax
+
+         table.row('.selected').remove().draw( false );//图形删除，没有传到后台接口
+    } );//end 3 外圈 $('#delbut').click
+
+    //步骤4，对话框初始配置
+    $( "#dialog" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });//end 4 外圈 dialog
+
+    //步骤5，编辑打开事件
+    $( "#opener" ).click(function() {
+
+        //要初始化一个对象，不然会报undifine未定义错误
+        var delRowData = {};
+        //获取选择那一行的数据
+         delRowData = table.row('.selected').data();
+         console.log(delRowData);
+         document.ffname.name.value= delRowData.name;
+         document.ffname.empNum.value= delRowData.empNum;
+         document.ffname.phone.value= delRowData.phone;
+         document.ffname.depart.value= delRowData.depart;
+         document.ffname.job.value= delRowData.job;
+         document.ffname.remark.value= delRowData.remark;
+
+         document.ffname.claTeacher.value= delRowData.claTeacher;
+         document.ffname.sex.value= delRowData.sex;
+         document.ffname.org.value= delRowData.org;
+         var workDate = delRowData.workDate;
+         $('#workDate').datebox('setValue', workDate);
+         document.ffname.fullhalf.value= delRowData.fullhalf;
+         document.ffname.jobRemark.value= delRowData.jobRemark;
+
+        var n1 = document.ffname.name.value; //定义个变量n接收表单中的值
+//        alert(n1); //alert是弹出对话框，会弹出一个123的对话框
+
+            $( "#dialog" ).dialog( "open" );
+
+    });//end 5 外圈 opener 结束打开对话框
+
+
+    //步骤6，编辑确定事件
+    $( "#submitForm" ).click(function() { 
+        //要初始化一个对象，不然会报undifine未定义错误
+            var delRowData = {};
+            //获取选择那一行的数据
+            delRowData = table.row('.selected').data();
+            var send_edit_data = {};
+            send_edit_data = $("#ffname").serializeObject();
+            send_edit_data.uuid = delRowData.uuid;
+            send_edit_data.workDate = $('#workDate').datebox('getValue');
+
+            $.ajax({
+                
+                url:"/sdpk/aaEmp?qqiu=edit",
+                type: "POST",
+                //data: JSON.stringify(param),
+                data: JSON.stringify(send_edit_data),
+                contentType: "application/json;charset=UTF-8", 
+                success:function(result){
+                    var obj = JSON.parse(result);
+                    alert(obj.message);
+                table.ajax.reload();
+                $( "#dialog" ).dialog( "close" );
+                }
+             
+            });
+
+
+    });//end 6 外圈 submitForm
+
+    //步骤7，关闭修改对话框
+    $( "#close" ).click(function() { 
+
+        $( "#dialog" ).dialog( "close" );
+
+        });//end 7 外圈 close
+    
+} );//end  $(document).ready
+
+
+    function submitForm(){
+			//$('#ff').form('submit');
+			var param = $("#ff").serializeObject();
+			$.ajax({
+				
+				url:"/sdpk/aaStudent?qqiu=add",
+				type: "POST",
+				//data: JSON.stringify(param),
+				data: JSON.stringify(param),
+				contentType: "application/json;charset=UTF-8", 
+				success:function(result){
+				$("#div1").html(result);
+				}
+			 
+			});
+			
+		};//end function submitForm
+    
+    </script>
+</head>
+<body>
+	
+	<div id="fen3a3_container" class="tab-con">
+
+		<div id="ye_1_blank"></div>
+		<div id="ye_2_blank"></div>
+
+		<div id="ye_3_text_container">
+			<div id="header_1">
+                <h2>员工管理</h2>
+            </div>
+            <!-- 留空开始 -->
+	    	<div style="position: relative;z-index: 999;width:500px;">
+			
+			<button id="delbut" class="btn-class">删除</button>
+			<button id="opener" class="btn-class">编辑</button>
+	    	</div>
+			<!-- 留空结束 -->
+	    	
+                    <!--start div id="listTable" 列表展示开始 -->
+            		<div id="listTable" style="height: 530px;background-color: #FFFFFF;">
+                    <table id="example" class="display tab-mians" cellspacing="0" width="100%">
+                        <thead class="tab-tit">
+                            <tr>
+                                <th style="min-width:140px;">姓名</th>
+                                <th style="min-width:140px;">员工编号</th>
+                                <th style="min-width:160px;">手机号</th>
+                                <th style="min-width:140px;">部门</th>
+                                <th style="min-width:140px;">职位</th>
+                                <th style="min-width:200px;">全职/兼职</th>
+                                <th style="min-width:200px;">状态</th>
+                            </tr>
+                        </thead>
+                        <tfoot class="tab-tit">
+                            <tr>
+                                <th style="min-width:140px;">姓名</th>
+                                <th style="min-width:140px;">员工编号</th>
+                                <th style="min-width:160px;">手机号</th>
+                                <th style="min-width:140px;">部门</th>
+                                <th style="min-width:140px;">职位</th>
+                                <th style="min-width:200px;">全职/兼职</th>
+                                <th style="min-width:200px;">状态</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+                    </div><!--end div id="listTable" 列表展示结束 -->
+
+
+
+
+
+		</div><!-- end div id="fen3a3_container" -->
+
+	</div><!-- end div  id="fen_container"-->
+
+	<div id="dialog" title="编辑员工" closed="true" style="width:1000px;height: 690px;padding-left: 20px;">
+            <div  class="tit_style">
+                <h3>员工管理</h3>
+            </div>
+                <form id="ffname" name="ffname" method="post" > 
+
+                <table id="header_3_tb1" class="tab-style">
+                    <!-- 第一行 -->
+                    <tr>
+                    <td class="name-s" style="padding-left:0">姓名</td>
+                    <td><input  type="text" name="name" class="yzss" placeholder="请输入姓名"> </td>
+                    <td class="name-s">性别</td>
+                    <td>
+                        <select  name="sex" class="yzss sel_s">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </td>
+                    <td class="name-s">员工编号</td>
+                    <td><input  type="text" name="empNum" class="yzss" placeholder="请输入员工编号"> </td>
+                    </tr>
+                    <!-- 第一行结束 -->
+                    <!-- 第二行 -->
+                    <tr>
+                        <td class="name-s" style="padding-left:0">任职校区<!--<b>*</b>--></td>
+                    <td>
+                        <select  name="org" class="yzss sel_s">
+                            <option value="所有校区">所有校区</option>
+                            <option value="企业公馆校区">企业公馆校区</option>
+                        </select>
+                    </td>
+                    <td  class="name-s">入职时间</td>
+                    <td><input id="workDate" name="workDate" type="text" class="easyui-datebox yzss" required="required" ></td>
+                    <td  class="name-s">是否全职</td>
+                    <td>
+                        <select  name="fullhalf" class="yzss sel_s" >
+                            <option value="全职">全职</option>
+                            <option value="兼职">兼职</option>
+                        </select>
+                    </td>
+                    </tr>
+                    <!-- 第二行结束 -->
+                    <!-- 第三行开始 -->
+
+                    <tr>
+                    <td  class="name-s" style="padding-left:0">部门</td>
+                    <td>
+                        <select  name="depart" class="yzss sel_s">
+                            <option >请选择</option>
+                            <option value="产品部">产品部</option>
+                            <option value="市场部">市场部</option>
+                            <option value="教学部">教学部</option>
+                            <option value="人事行政部">人事行政部</option>
+                        </select>
+                    </td>
+                    <td class="name-s">职位</td>
+                    <td>
+                        <input  type="text" name="job" class="yz-box yzss " placeholder="请输入职位">
+                        <!--<select  name="job" class="yzss sel_s">-->
+                            <!--<option value="校长">校长</option>-->
+                            <!--<option value="主任">主任</option>-->
+                            <!--<option value="任课老师">任课老师</option>-->
+                        <!--</select>-->
+                    </td>
+                    <td class="name-s">班主任</td>
+                    <td>
+                        <select  name="claTeacher" class="yzss sel_s">
+                            <option value="true">是</option>
+                            <option value="false">否</option>
+                        </select>
+                    </td>
+                    </tr>
+                    <!-- 第三行结束 -->
+                    </table><!-- end id=header_3_tb1 -->
+
+                    <table id="header_3_tb2"  class="tab-style">
+                    <!-- 第一行 -->
+                    <tr>
+                    <td class="name-s" style="padding-left:0">职位备注</td>
+                    <td><input  type="text" name="jobRemark" class="yzss tc_td" placeholder="输入职位备注" style="width: 859px;"></td>
+                    </tr>
+                    <!-- 第一行结束 -->
+                    </table> <!-- end id为 header_3_tb2 -->
+
+                <table id="header_3_tb3" class="tab-style">
+                    <!-- 第一行 -->
+                    <!-- 第一行结束 -->
+                    <!-- 第二行 -->
+                    <tr>
+                    <td class="name-s" style="padding-left:0">联系电话</td>
+                    <td><input  type="text" name="phone" class="yzss" placeholder="请输入联系电话"></td>
+
+                    </tr>
+                    <!-- 第二行结束 -->
+                    </table><!-- end  id= header_3_tb3 -->
+
+                    <table id="header_3_tb4"class="tab-style">
+                    <!-- 第一行 -->
+                    <tr>
+                    <td  class="name-s" style="padding-left:0">个人备注</td>
+                    <td><input  type="text" name="remark" class="yzss tc_td"  placeholder="输入个人备注" style="width: 859px;"></td>
+                    </tr>
+                    <!-- 第一行结束 -->
+                    </table> <!-- end id为 header_3_tb4 -->
+
+                </form>
+                <!-- 按钮div开始 -->
+                <div class="btn-box" style="margin-right: 16px;">
+                    <button  class="easyui-linkbutton btn-xk" id="close">关闭</button>
+                    <button  class="easyui-linkbutton btn-qr" id="submitForm">确认</button>
+                 </div>
+                 <!-- 按钮div结束 -->
+    </div><!-- end id=dialog -->
+    <!-- S--公用弹窗 -->
+    <div class="alert-main">
+        <p class="alert-con">此条学生信息已删除</p>
+        <a class="close-item">×</a>
+    </div>
+    <script>
+        $(function () {
+            $('.close-item').click(function(){
+                $('.alert-main').hide()
+            })
+        })
+    </script>
+    <!-- E--公用弹窗 -->
+</body>
+<!--修改日期输入框样式-->
+<script>
+    $(function(){
+        $('.combo').css({
+            "height":"34px",
+            "width":"200px"
+        });
+        $('.combo .combo-text').css({
+            "height":"34px",
+            "width":"160px"
+        });
+    })
+</script>
+</html>

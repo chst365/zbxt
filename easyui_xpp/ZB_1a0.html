@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script type="text/javascript" src="/sdzb1_zhang/easyui_xpp/jquery-easyui-136/jquery.min.js"></script>
+    <script src="/sdzb1_zhang/xppjs/jquery.idTabs.js"></script>
+    <script type="text/javascript" src="/sdzb1_zhang/easyui_xpp/jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/sdzb1_zhang/easyui_xpp/DataTables/datatables.js"></script>
+    <link href="/sdzb1_zhang/js/bootstrap.min.css" rel="stylesheet">
+    <script src="/sdzb1_zhang/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/sdzb1_zhang/HMcode_QD/HMjs/jump.js" type="text/javascript"></script>
+    <script src="/sdzb1_zhang/HMcode_QD/HMjs/d3.v3.min.js"></script>
+    <script src="/sdzb1_zhang/HMcode_QD/HMjs/index.js"></script>
+    <script src="/sdzb1_zhang/HMcode_QD/HMjs/wow.min.js"></script>
+    <link href="/sdzb1_zhang/HMcode_QD/HMcss/animate.min.css" rel="stylesheet">
+    <link href="/sdzb1_zhang/HMcode_QD/HMcss/main.css" rel="stylesheet">
+    <link href="/sdzb1_zhang/HMcode_QD/HMcss/ZB_1a0.css" rel="stylesheet">
+    <script>
+        $(window).load(function(){
+            $('#myCarousel').addClass("fadeInRight");
+            $('.online').delay(1000).addClass("fadeInUp");
+        });
+        $(document).ready(function () {
+            var online =  $('.online').offset().top;
+            var appoint =  $('.appoint').offset().top;
+            var course =  $('.course-box').offset().top;
+            var inter =  $('.inter-bk').offset().top;
+            var teacher = $('.teacher-box').offset().top;
+            var record =  $('.record-zj').offset().top;
+            var wH = $(window).height();
+            $(window).scroll(function(){
+                var oWinSrcHei = $(window).scrollTop();
+                if ((oWinSrcHei + 400)>online) {
+                    $('.appoint').addClass('fadeInLeft');
+                }
+                if ((oWinSrcHei + 450)>appoint) {
+                    $('.course-box').addClass('fadeInRight');
+                }
+                if ((oWinSrcHei + 400)>course) {
+                    $('.inter-bk').addClass('fadeInUp');
+                }
+                if ((oWinSrcHei + 450)>inter) {
+                    $('.teacher-box').addClass('fadeInDown');
+                }
+                if ((oWinSrcHei + 400)>teacher) {
+                    $('.record-zj').addClass('fadeInUp');
+                }
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.fn.dataTable.ext.errMode = 'none';
+            $('#table_id_ex1').DataTable( {
+                bAutoWidth:false,
+                "bLengthChange":false,
+                searching:false,
+                "paging": false,
+                info:false,
+                bSort:true,
+                language: {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "共 _TOTAL_ 项",
+                    "sInfoEmpty": "共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                },//国际化语言结束
+                destroy:true,//表示可重复加载
+                "ajax": "/sdzb1_zhang/HMcode_QD/HMjs/table_id_ex1.json",
+                "columns": [
+                    { "data": "name" },
+                    { "data": "score" },
+                    { "data": "time" }
+                ]
+            } );
+            $('#table_id_ex2').DataTable( {
+                bAutoWidth:false,
+                "bLengthChange":false,
+                searching:false,
+                "paging": false,
+                info:false,
+                bSort:true,
+                language: {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "共 _TOTAL_ 项",
+                    "sInfoEmpty": "共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                },//国际化语言结束
+                destroy:true,//表示可重复加载
+                "ajax": "/sdzb1_zhang/HMcode_QD/HMjs/table_id_ex2.json",
+                "columns": [
+                    { "data": "name" },
+                    { "data": "score" },
+                    { "data": "time" }
+                ]
+            } );
+        } );
+    </script>
+</head>
+<body>
+<!--S--轮播-->
+<div id="myCarousel" class="First_Carousel_area animated fadeInUp carousel slide">
+    <a href="#" class="btn-zx">立即咨询</a>
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <img style="max-width:100%;min-width:100%;" src="/sdzb1_zhang/sdzbjpg/slide01.png" alt="First slide">
+        </div>
+        <div class="item">
+            <img style="max-width:100%;min-width:100%;" src="/sdzb1_zhang/sdzbjpg/slide02.png" alt="Second slide">
+        </div>
+        <div class="item">
+            <img style="max-width:100%;min-width:100%;" src="/sdzb1_zhang/sdzbjpg/slide03.png" alt="Third slide">
+        </div>
+    </div>
+    <!-- 轮播（Carousel）导航 -->
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+<!--E--轮播-->
+<!--S--在线课堂简介-->
+<div class="Second_inLine_area animated online">
+    <h2 class="tit">树袋在线课堂</h2>
+    <p class="tit-fu">顶尖的师资力量，有值得授课内容，专业的课程服务</p>
+    <!--<div class="online-main img_box">
+        <ul class="online-txt" id="ul">
+            <li class="fir">
+                <img class="img-dd" src="/sdzb1_zhang/HMcode_QD/HMimages/img-bq.png">
+                <p>这里是文字效果展示</p>
+            </li>
+            <li class="sec">
+                <img class="img-dd" src="/sdzb1_zhang/HMcode_QD/HMimages/img-bq.png">
+                <p>这里是文字效果展示</p>
+            </li>
+        </ul>
+    </div>-->
+    <div class="online-box">
+        <div class="online_l">
+            <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-conputer.png">
+            <h4>随时随地，灵活上课</h4>
+            <ul class="txt">
+                <li>打破时间地域限制，释放效率，高效学习</li>
+                <li>在线授课，极简操作，做到实时交流互动</li>
+                <li>课程全录制，课后可随时温习巩固</li>
+            </ul>
+        </div>
+        <div class="online_c">
+            <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-book.png">
+            <h4>课程个性化定制</h4>
+            <ul class="txt">
+                <li>全面了解学生学习情况，匹配合适的老师</li>
+                <li>多维度分析诊断，定制个性化的学习方案</li>
+                <li>实时动态监测，针对性地调整学习规划</li>
+            </ul>
+        </div>
+        <div class="online_r">
+            <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-jqr.png">
+            <h4>学习顾问“管家式”服务</h4>
+            <ul class="txt">
+                <li>随时监测上课情况，定期发送学习报告</li>
+                <li>课后及时反馈，家长第一时间了解学习动态</li>
+                <li>监督学生作业完成情况，即使答疑解惑</li>
+            </ul>
+        </div>
+    </div>
+    <a href="#" class="line-link">+详细了解树袋在线课堂</a>
+</div>
+<!--E--在线课堂简介-->
+<!--S--预约试听-->
+<div class="three_appoint_area animated appoint">
+    <h2 class="tit">一键预约，在线轻松上课</h2>
+    <div class="appoint-con">
+        <ul class="img-xz">
+            <b></b>
+            <b></b>
+            <b></b>
+            <li>
+                <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-yy1.png">
+            </li>
+            <b></b>
+            <b></b>
+            <b></b>
+            <b></b>
+            <b></b>
+            <li>
+                <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-yy2.png">
+            </li>
+            <b></b>
+            <b></b>
+            <b></b>
+            <b></b>
+            <b></b>
+            <li>
+                <img src="/sdzb1_zhang/HMcode_QD/HMimages/icon-yy3.png">
+            </li>
+            <b></b>
+            <b></b>
+            <b></b>
+        </ul>
+        <ul class="txt-xz">
+            <li>线上预约免费试听</li>
+            <li>专业课程顾问致电排课安排</li>
+            <li>注册账号开启学习之旅</li>
+        </ul>
+    </div>
+    <a href="#" class="link-yy">预约免费试听</a>
+</div>
+<!--E--预约试听-->
+<!--S--课程介绍-->
+<div class="four_course_area animated course-box">
+    <h2 class="tit">国际k12课程体系全覆盖</h2>
+    <p class="tit-fu">基础巩固&nbsp;&nbsp;&nbsp;查漏补缺&nbsp;&nbsp;&nbsp;培优拔高&nbsp;&nbsp;&nbsp;高分冲刺</p>
+    <div class="tab-con">
+        <ul class="tab-tit">
+            <li class="cur">IGCSE</li>
+            <li>A-Level</li>
+            <li>IB</li>
+            <li>Ap</li>
+            <li>美高</li>
+        </ul>
+        <div class="tab-main">
+            <div class="tab-item" style="display: block">
+                <div class="box-tw">
+                    <img class="img-b">
+                    <div class="txt-b">
+                        <b class="yh-up">“</b>
+                        <p>IGCSE(International General Certificate of Secondary Education)为英国普通初级中学毕业文凭的全球考试系统，其证书在大部分地区被认可。不用于中国教育制度，IGCSE是英国中学10年级和11年级的课程。</p>
+                        <b class="yh-down">”</b>
+                    </div>
+                </div>
+                <ul class="item-m">
+                    <li><b>辅助学科：</b><p><i>数学</i><i>进阶数学</i><i>物理</i><i>化学</i><i>生物</i><i>历史</i><i>地理</i><i>经济</i><i>……</i></p></li>
+                    <li><b>适合学生：</b><p>国内初三到高二有留学意向的学生或已在学习IGCSE课程的学生。</p></li>
+                    <li><b>课程目标：</b><p>准确定位学生学习起点，对课程内容进行整合，突破传统学习方法，快速适应和掌握IGCSE体系考点。
+                        扫清各科学习过程中的语言障碍，增强自信力，依据各科教学大纲，对知识模块进行全面系统的教学。
+                        围绕各科的考试重点、热点和难点问题，指导学生在解题思路与方法上建立个人框架与策略，进一步提升应试能力，各科成绩冲保A冲A*。</p></li>
+                </ul>
+            </div>
+            <div class="tab-item">
+                <div class="box-tw">
+                    <img class="img-b">
+                    <div class="txt-b">
+                        <b class="yh-up">“</b>
+                        <p>Level为英国高中课程（General Certificate of Education Advanced Level），是入读英国大学的必修课程，其重要性等同于中国高考。A-Level考试证书已被全球超过160个国家，11000多所大学认可，是全球公认的最为系统的高中课程体系之一。</p>
+                        <b class="yh-down">”</b>
+                    </div>
+                </div>
+                <ul class="item-m">
+                    <li><b>辅助学科：</b><p><i>数学</i><i>进阶数学</i><i>物理</i><i>化学</i><i>生物</i><i>历史</i><i>地理</i><i>经济</i><i>……</i></p></li>
+                    <li><b>适合学生：</b><p>国内初三到高二有留学意向的学生或已在学习A-Level课程的学生。</p></li>
+                    <li><b>课程目标：</b><p>准确定位学生学习起点，对课程内容进行整合，突破传统学习方法，快速适应和掌握A-Level体系考点。
+                        扫清各科学习过程中的语言障碍，增强自信力，依据各科教学大纲，对知识模块进行全面系统的教学。
+                        围绕各科的考试重点、热点和难点问题，指导学生在解题思路与方法上建立个人框架与策略，进一步提升应试能力，各科成绩冲保A冲A*。</p></li>
+                </ul>
+            </div>
+            <div class="tab-item">
+                <div class="box-tw">
+                    <img class="img-b">
+                    <div class="txt-b">
+                        <b class="yh-up">“</b>
+                        <p>Level为英国高中课程（General Certificate of Education Advanced Level），是入读英国大学的必修课程，其重要性等同于中国高考。A-Level 考试证书已被全球超过160 个国家，11000 多所大学认可，是全球公认的最为系统的高中课程体系之一。</p>
+                        <b class="yh-down">”</b>
+                    </div>
+                </div>
+                <ul class="item-m">
+                    <li><b>辅助学科：</b><p><i>数学</i><i>物理</i><i>化学</i><i>生物</i><i>历史</i><i>地理</i><i>经济</i><i>……</i></p></li>
+                    <li><b>适合学生：</b><p>已在国际学校学习IB课程的学生或考虑选择IB课程体系的学生</p></li>
+                    <li><b>课程目标：</b><p>围绕各科SL或HL考试重点、热点、难点和焦点问题，根据学生实际情况定制课程。
+                        着重知识的迁移和应用，对各科知识点进行全面系统的教学，归纳总结、查缺补漏，在彻底掌握重点难点的基础上拓展加深，进一步提升学生应试能力。
+                        的启用海外名校毕业的资深老师，规范化、体系化的教学，帮助学生最终成绩突破6分并冲刺7分。</p></li>
+                </ul>
+            </div>
+            <div class="tab-item">
+                <div class="box-tw">
+                    <img class="img-b">
+                    <div class="txt-b">
+                        <b class="yh-up">“</b>
+                        <p>AP项目（Advanced Placement Program）是由美国大学理事会（The College Board）主持，在高中阶段开设的具有大学水平的课程，使有能力的高中生有机会先选修部分美国大学基础课程以获得美国大学学分。至今，50多个国家的3600所大学承认AP学分。</p>
+                        <b class="yh-down">”</b>
+                    </div>
+                </div>
+                <ul class="item-m">
+                    <li><b>辅导学科：</b><p><i>微积分AB&BC</i><i>物理</i><i>1&2&C</i><i>化学</i><i>生物</i><i>世界／美国历史</i><i>计算机科学A</i><i>……</i></p></li>
+                    <li><b>适合学生：</b><p>高一高二有留学意向的高中生或对未来的专业方向已有一定的认识的学生</p></li>
+                    <li><b>课程目标：</b>
+                        <p>针对学员基础水平及其留学院校要求，定制专属AP课程方案。
+                            基础、强化、冲刺三阶段，让学生培养基本学科素养的基础上掌握中高难度的知识点，训练AP的解题思路。考前最后搏击，通过知识点串讲，历年真题训练的方式提高解题效率。
+                            启用海外名校毕业的资深老师，规范化、体系化的教学，学生AP的5分率高达90%。</p>
+                        </li>
+                </ul>
+            </div>
+            <div class="tab-item">
+                <div class="box-tw">
+                    <img class="img-b">
+                    <div class="txt-b">
+                        <b class="yh-up">“</b>
+                        <p>美国高中的教育目标主要有两个：一是为部分学生做升学准备；二是帮助那些不准备升学的学生做就业、职业方向选择的准备，并为他们继续学习或达到其它教育目标打下基础。美国高中教育采用启发式教育，任何课程都要求学生自己去发掘、编排资料和撰写报告。</p>
+                        <b class="yh-down">”</b>
+                    </div>
+                </div>
+                <ul class="item-m">
+                    <li><b>课程学科：</b><p><i>代数</i><i>物理</i><i>化学</i><i>生物</i><i>美国历史</i><i>世界历史</i><i>……</i></p></li>
+                    <li><b>适合学生：</b><p>已在国际学校学习美高课程的学生或考虑选择美高课程体系的学生。</p></li>
+                    <li><b>课程目标：</b>
+                        <p>美国高中课程的必修课一般设有英语、数学、科学、社会等。这些课程虽名为必修，但实际只是一种宏观构架，每一门必修学科下，还分层次使用不同水平的教材，开设不同名目的课程，同时美高课程的很多作业测评是以项目为实现形式，学生通过活学活用来实现学习、激发学习兴趣。树袋老师针对学生选择的不同学科的考点进行全方位梳理与辅导，帮助学生熟悉各类经典考题，在学校考试中力争高GPA。</p></li>
+                </ul>
+            </div>
+        </div>
+        <a class="link-m" href="#">+详细了解树袋国际k12课程辅导</a>
+    </div>
+</div>
+<!--E--课程介绍-->
+<!--S--国际备考-->
+<div class="animated inter-bk">
+    <h2>国际学校备考，一站式解决方案</h2>
+    <div class="charts--container">
+        <ul>
+            <li class="chart">
+                <div id="lineChart">
+                    <svg id="lineChartSVG" class="lineChart--svg">
+                        <defs>
+                            <linearGradient id="lineChart--gradientBackgroundArea" x1="0" x2="0" y1="0" y2="1">
+                                <stop class="lineChart--gradientBackgroundArea--top" offset="0%" />
+                                <stop class="lineChart--gradientBackgroundArea--bottom" offset="100%" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <a class="link-m" href="#">+了解更多课程信息</a>
+</div>
+<!--E--国际备考-->
+<!--S--老师介绍-->
+<div class="animated teacher-box">
+    <h2>实力派名师 学员一致好评</h2>
+    <p>— 好成绩，从选择好老师开始 —</p>
+    <div class="tea-intro">
+        <div class="intro-item fir">
+            <div class="intro-tit fold">这里是图片介绍1</div>
+            <div class="intro-det unfold">
+                <p>这里是一些文字介绍</p>
+            </div>
+        </div>
+        <div class="intro-item sec">
+            <div class="intro-tit fold">这里是图片介绍2</div>
+            <div class="intro-det unfold">
+                <p>这里是一些文字介绍</p>
+            </div>
+        </div>
+        <div class="intro-item thr">
+            <div class="intro-tit fold">这里是图片介绍3</div>
+            <div class="intro-det unfold">
+                <p>这里是一些文字介绍</p>
+            </div>
+        </div>
+        <div class="intro-item four">
+            <div class="intro-tit fold">这里是图片介绍4</div>
+            <div class="intro-det unfold">
+                <p>这里是一些文字介绍</p>
+            </div>
+        </div>
+        <div class="intro-item five">
+            <div class="intro-tit fold" style="display: none">这里是图片介绍5</div>
+            <div class="intro-det unfold" style="display: block">
+                <p>这里是一些文字介绍</p>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="link-m">+选择你的专属老师</a>
+</div>
+<!--E--老师介绍-->
+<!--S--战绩榜-->
+<div class="animated record-zj">
+    <h2>树袋学员战绩榜</h2>
+    <p>— 让你变得比你想象中的更优秀 —</p>
+    <div class="tab-tab">
+        <ul class="tab-t">
+            <li class="fir cur">国际课程提分</li>
+            <li class="sec">国际学校备考</li>
+        </ul>
+        <div class="tab-all">
+            <div class="tab-b" style="display: block">
+                <table id="table_id_ex1">
+                    <thead>
+                    <tr>
+                        <th>优秀学员</th>
+                        <th>学员战绩</th>
+                        <th>学习时间</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>优秀学员</th>
+                        <th>学员战绩</th>
+                        <th>学习时间</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="tab-b">
+                <table id="table_id_ex2">
+                    <thead>
+                    <tr>
+                        <th>优秀学员</th>
+                        <th>学员战绩</th>
+                        <th>学习时间</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>优秀学员</th>
+                        <th>学员战绩</th>
+                        <th>学习时间</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="link-m">+查看更多学员分员</a>
+</div>
+<!--E--战绩榜-->
+<a href="#" class="back-to-top"></a>
+</body>
+</html>
+<script>
+    $(function(){
+        /*轮播图*/
+        $('.carousel').carousel({
+            interval: 2000
+        });
+        $(function(){
+            $("#ul img").each(function(k,img){
+                new JumpObj(img,10);
+                //第一个参数代表元素对象
+                //第二个参数代表抖动幅度
+            });
+        });
+        /*课程体系tab切换*/
+        $('.tab-tit li').hover(function(){
+            var divC = $('.tab-main .tab-item');
+            var liC = $('.tab-tit li');
+            var eqC = $(this).index();
+            divC.css("display","none");
+            liC.removeClass("cur");
+            $(this).addClass("cur");
+            divC.eq(eqC).css("display","block");
+        });
+        /*战绩榜tab切换*/
+        $('.tab-t li').hover(function(){
+            var divC = $('.tab-all .tab-b');
+            var liC = $('.tab-t li');
+            var eqC = $(this).index();
+            divC.css("display","none");
+            liC.removeClass("cur");
+            $(this).addClass("cur");
+            divC.eq(eqC).css("display","block");
+        });
+        /*老师样式切换*/
+        /*$('.tea-intro .intro-item').click(function(){
+            $('.intro-item .intro-det').css("display","none");
+            $(this).find(".intro-det").css("display","block");
+            $('.tea-intro .intro-item').animate({"marginRight":"0"},0.5);
+            $(this).animate({"marginRight":"190px"},0.5);
+        });*/
+          /*  $(".tea-intro .intro-item").each(function(){
+                var fold = $(this).find(".fold");
+                var unfold = $(this).find(".unfold");
+                if(fold.is(":hidden")){
+                    $(this).width(150);
+                }else{
+                    $(this).width(150);
+                }
+            });*/
+            $(".tea-intro .intro-item").mouseover(function(){
+                var li_index = $(this).index();
+                    $(this).animate({width:150},0);
+                    $(this).find(".unfold").show();
+                    $(this).find(".fold").hide();
+                    $(this).siblings().animate({width:150},0);
+                    $(this).siblings().find(".unfold").hide();
+                    $(this).siblings().find(".fold").show();
+            });
+    });
+
+</script>

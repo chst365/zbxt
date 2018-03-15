@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="content-type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>树袋老师</title>
+    <script id=clientEventHandlersJS language=javascript>
+      function getBrowserInfo()
+      {
+        var agent = navigator.userAgent.toLowerCase() ;
+        var regStr_edge = /rv\:[\d.]+/gi ;
+        var regStr_ie = /msie [\d.]+;/gi ;
+        var regStr_ff = /firefox\/[\d.]+/gi
+        var regStr_chrome = /chrome\/[\d.]+/gi ;
+        var regStr_saf = /safari\/[\d.]+/gi ;
+//        Edage
+        if(agent.indexOf("rv") > 0 && agent.indexOf("firefox") < 0)
+        {
+          return agent.match(regStr_edge);
+        }
+//IE
+        if(agent.indexOf("msie") > 0)
+        {
+          return agent.match(regStr_ie) ;
+        }
+
+//firefox
+        if(agent.indexOf("firefox") > 0)
+        {
+          return agent.match(regStr_ff) ;
+        }
+
+//Chrome
+        if(agent.indexOf("chrome") > 0)
+        {
+          return agent.match(regStr_chrome) ;
+        }
+
+//Safari
+        if(agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0)
+        {
+          return agent.match(regStr_saf) ;
+        }
+
+      }
+      var browser = getBrowserInfo() ;
+      var an = (browser+"").replace(/[^0-9.]/ig,"");
+      var ana = (browser+"").replace(/[^a-z]/ig,"");
+      if(ana=='msie'&&Number(an)<10){
+        alert("ie9及其以下版本略有失真，点击继续访问");
+        //禁止加载
+//        window.stop ? window.stop() : document.execCommand("Stop");
+      }
+    </script>
+    <!-- idTabs链接文件 -->
+    
+     <!--<script type="text/javascript" src="xppjs/jquery.js"></script>-->
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.min.js"></script>
+    <!--<script src="xppjs/jquery.idTabs.js"></script>-->
+    <!--<script type="text/javascript" src="xppjs/jquery.cookie.js"></script>-->
+    <!--&lt;!&ndash; easyui链接文件 &ndash;&gt;-->
+    <!--<script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.easyui.min.js"></script>-->
+    <!--<script type="text/javascript" src="easyui_xpp/jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>-->
+    <!--<script type="text/javascript" src="easyui_xpp/DataTables/datatables.js"></script>-->
+    <!--&lt;!&ndash; xpp的链接文件 &ndash;&gt;-->
+    <!--<link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/gray/easyui.css"/>-->
+    <!--<link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/icon.css"/>-->
+    <!--<link href="js/bootstrap.min.css" rel="stylesheet">-->
+    <!--<script src="js/bootstrap.min.js" type="text/javascript"></script>-->
+    <!--<script src="HMcode_QD/HMjs/less.min.js" type="text/javascript"></script>-->
+    <link href="HMcode_QD/HMcss/main.css" rel="stylesheet">
+
+    <style>
+        .qt-block>div{
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+<!--S--顶部导航条-->
+<div class="header-area">
+    <div class="header">
+        <ul class="nav-ul idTabs">
+            <a href="easyui_xpp/ZB_1a0.html" id="menu_aa"> <img src="HMcode_QD/HMimages/logo-02.png"></a>
+            <li><a href="easyui_xpp/ZB_1a0.html" rel="external nofollow" class="current">首页</a> </li>
+            <li><a href="easyui_xpp/ZB_1a1.html" rel="external nofollow" >在线课堂</a> </li>
+            <li ><a href="easyui_xpp/ZB_1a0.html">树袋课程</a>
+
+            </li>
+            <li class="drop-li"><a href="easyui_xpp/ZB_1a4.html" rel="external nofollow">师资力量</a>
+                <ul class="nav-item">
+                    <li><a href="easyui_xpp/ZB_1a2.html" rel="external nofollow">国际K12课程</a> </li>
+                    <li><a href="easyui_xpp/ZB_1a3.html" rel="external nofollow">国际学校备考</a> </li>
+                </ul>
+            </li>
+            <li><a href="easyui_xpp/ZB_1a5.html" rel="external nofollow">学员口碑</a> </li>
+        </ul>
+        <div class="btnbox">
+            <a href="#" class="register">登录</a>
+            <a href="#" class="login">注册</a>
+        </div>
+    </div>
+</div>
+
+<!--E--顶部导航条-->
+<!--嵌套部分-->
+<section id="content">
+    <div class="container">
+
+    </div>
+</section>
+<!--S--底部-->
+<div class="footer">
+    <div class="footer-con">
+        <div class="footer-txt">
+            <ul>
+                <li><a href="easyui_xpp/ZB_1a0.html">关于我们</a> </li>
+                <li><a href="easyui_xpp/ZB_1a0.html">联系我们</a> </li>
+                <li><a href="easyui_xpp/ZB_1a0.html">加入我们</a> </li>
+            </ul>
+            <p>400-1798-499</p>
+            <p>@296.shudailaoshi.com.All rights </p>
+            <p>沪ICxxxxxx号</p>
+        </div>
+        <div class="footer-ewm">
+            <p>树袋老师二维码</p>
+        </div>
+    </div>
+</div>
+<!--E--底部-->
+<!--S--悬浮窗-->
+<div class="float-b">
+    <div class="float-tel">
+        <img src="HMcode_QD/HMimages/icon-tel.png">
+        <p class="tel">400-1798-496</p>
+    </div>
+    <div class="float-zx">
+        <img src="HMcode_QD/HMimages/bulb.png">
+        <p class="link-zx" href="easyui_xpp/ZB_1a0.html">咨询</p>
+    </div>
+    <div class="zx-alert">
+        <b>×</b>
+        <img src="HMcode_QD/HMimages/bulb.png">
+        <p class="txt">马上和老师聊聊<br>解答你的所有学习问题</p>
+        <a href="tencent://message/?uin=12345&Site=&Menu-=yes" class="abtn">我要咨询</a>
+    </div>
+
+</div>
+<!--E--悬浮窗-->
+</body>
+</html>
+<script>
+  $(document).ready(function() {
+    $('#content').load('/sdzb1_zhang/easyui_xpp/ZB_1a0.html' + '#container').fadeIn('slow');
+    $('ul a').on('click', function(e) {
+      e.preventDefault(); // 阻止链接跳转
+      var url = this.href; // 保存点击的地址
+      console.log(url);
+      $('ul a.current').removeClass('current');
+      $(this).addClass('current');
+
+      $('#container').remove();
+      $('#content').load(url + '#container').fadeIn('slow'); // 加载新内容,url地址与该地址下的选择器之间要有空格,表示该url下的#container
+    });
+      /*弹窗*/
+    $('.float-zx').click(function(){
+      $('.zx-alert').show(200);
+    });
+    $(".zx-alert b").click(function () {
+      $('.zx-alert').hide(200);
+    });
+  })
+</script>
+<script>
+    window.onload = function (){
+        $(".drop-li").hover(function(){
+            var slideBlock = $(this).find(".nav-item");
+            if(slideBlock.is(":hidden")){
+                slideBlock.slideDown(200);
+            }else {
+                slideBlock.slideUp(200);
+            }
+        });
+        /*ifram高度赋值*/
+        var mm = $('.qt-block').height();
+        if($('#one1').is(":visible")){
+            $('#ifr1ac').attr("height",mm);
+        }else if($('#one').is(":visible")){
+            $('#ifr1a0').attr("height",mm);
+        }else if($('#two1').is(":visible")){
+            $('#ifr1a1').attr("height",mm);
+        }
+        else if($('#two2').is(":visible")){
+            $('#ifr1a2').attr("height",mm);
+        } else if($('#three').is(":visible")){
+            $('#ifr1a3').attr("height",mm);
+        }else if($('#four').is(":visible")){
+            $('#ifr1a4').attr("height",mm);
+        }
+    }
+</script>

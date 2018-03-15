@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="content-type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
+    <title>树袋老师</title>
+
+    <!-- idTabs链接文件 -->
+    
+    <!-- <script type="text/javascript" src="xppjs/jquery.js"></script> -->
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.min.js"></script>
+    <script src="xppjs/jquery.idTabs.js"></script>
+    <script type="text/javascript" src="xppjs/jquery.cookie.js"></script>
+    <!-- easyui链接文件 -->
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="easyui_xpp/DataTables/datatables.js"></script>
+    <!-- xpp的链接文件 -->
+    <link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/gray/easyui.css"/>
+    <link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/icon.css"/>
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="HMcode_QD/HMcss/main.css" rel="stylesheet">
+    <style>
+        .qt-block>div{
+            display: none;
+        }
+    </style>
+</head>
+<script>
+  $(document).ready(function() {
+    $("#menu_aa").click(function () {
+      document.getElementById('ifr1a').src = "easyui_xpp/ZB_1a0.html";
+      console.log("点击了首页");
+    });
+      $("#menu_ac").click(function () {
+          document.getElementById('ifr1ac').src = "easyui_xpp/ZB_1a0.html";
+          console.log("点击了首页");
+      });
+    $("#menu_a0").click(function () {
+      document.getElementById('ifr1a0').src = "easyui_xpp/ZB_1a1.html";
+      console.log("点击了在线课程");
+    });
+    $("#menu_a1").click(function () {
+      document.getElementById('ifr1a1').src = "easyui_xpp/ZB_1a2.html";
+      console.log("点击了国际课程1");
+    });
+    $("#menu_a2").click(function () {
+      document.getElementById('ifr1a2').src = "easyui_xpp/ZB_1a3.html";
+      console.log("点击了国际课程2");
+    });
+    $("#menu_a3").click(function () {
+      document.getElementById('ifr1a3').src = "easyui_xpp/ZB_1a4.html";
+      console.log("点击了师资力量");
+    });
+    $("#menu_a4").click(function () {
+      document.getElementById('ifr1a4').src = "easyui_xpp/ZB_1a5.html";
+      console.log("点击了教学成果");
+    });
+  })
+</script>
+<body>
+<!--S--顶部导航条-->
+<div class="header">
+    <ul class="nav-ul idTabs">
+        <a href="#zero" class="selected" id="menu_aa"> <img src="HMcode_QD/HMimages/logo-02.png"></a>
+        <li><a id="menu_ac" href="#one1" >首页</a> </li>
+        <li><a id="menu_a0" href="#one" >在线课程</a> </li>
+        <li class="drop-li"><a>课程介绍</a>
+            <ul class="nav-item">
+                <li><a href="#two1" id="menu_a1">国际学校备考</a> </li>
+                <li><a href="#two2" id="menu_a2">国际学校备考</a> </li>
+            </ul>
+        </li>
+        <li><a href="#three" id="menu_a3">师资力量</a> </li>
+        <li><a href="#four" id="menu_a4">教学成果</a> </li>
+    </ul>
+    <div class="btnbox">
+        <a href="#">注册</a>
+        <a href="#">登录</a>
+    </div>
+</div>
+<!--E--顶部导航条-->
+<!--嵌套部分-->
+<div class="qt-block">
+    <div id="zero">
+        <iframe id="ifr1a" name="ifr1a" style="width:100%;height: 500px;" onload="this.height=ifr1a.document.body.scrollHeight" src="easyui_xpp/ZB_1a0.html" frameborder="0"></iframe>
+    </div>
+    <div id="one1">
+        <iframe id="ifr1ac" name="ifr1ac" style="width:100%;height: 500px;" onload="this.height=ifr1ac.document.body.scrollHeight" src="easyui_xpp/ZB_1a0.html" frameborder="0"></iframe>
+    </div>
+    <div id="one">
+        <iframe id="ifr1a0" name="ifr1a0" style="width:100%;height: 500px;" onload="this.height=ifr1a0.document.body.scrollHeight" src="easyui_xpp/ZB_1a1.html" frameborder="0"></iframe>
+    </div>
+    <div id="two1">
+        <iframe id="ifr1a1" name="ifr1a1" style="width:100%;" onload="this.height=ifr1a1.document.body.scrollHeight"  frameborder="0"></iframe>
+    </div>
+    <div id="two2">
+        <iframe id="ifr1a2" name="ifr1a2"  style="width:100%;" onload="this.height=ifr1a2.document.body.scrollHeight"   frameborder="0"></iframe>
+    </div>
+    <div id="three">
+        <iframe id="ifr1a3" name="ifr1a3"  style="width:100%;" onload="this.height=ifr1a3.document.body.scrollHeight"   frameborder="0"></iframe>
+    </div>
+    <div id="four">
+        <iframe id="ifr1a4" name="ifr1a4"  style="width:100%;" onload="this.height=ifr1a4.document.body.scrollHeight"   frameborder="0"></iframe>
+    </div>
+</div>
+</body>
+
+</html>
+<script>
+    $(".drop-li").hover(function(){
+        var slideBlock = $(this).find(".nav-item");
+        if(slideBlock.is(":hidden")){
+            slideBlock.slideDown(200);
+        }else {
+            slideBlock.slideUp(200);
+        }
+    });
+</script>
+
+
+

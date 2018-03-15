@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="DataTables/datatables.js"></script>
+    <script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <link  rel="stylesheet" type="text/css" href="DataTables/datatables.css"/>
+    <link  rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+    <link  rel="stylesheet" type="text/css" href="../HMcode/HMcss/8a3.css"/>
+    <style>
+    		.dataTables_wrapper{
+    			top:-67px;
+    		}
+    		.dataTables_wrapper .dataTables_info{
+                        clear: none;
+                        float: right;
+                        padding-right: 20px;
+                        margin-top:20px;
+                    }
+                    .dataTables_wrapper .dataTables_paginate{
+                        float: right;
+                    }
+            .dataTables_wrapper .dataTables_paginate .paginate_button{
+                border:1px solid transparent;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+                border:1px solid transparent;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button:active{
+                box-shadow: none;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+                border:1px solid transparent;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button{
+                border:1px solid transparent;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+                border:1px solid transparent;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button:active{
+                box-shadow: none;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+                border:1px solid transparent;
+            }
+            table.dataTable.display tbody tr.even td.sorting_1{
+                background-color: white;
+            }
+    	</style>
+    <script>
+        $(document).ready(function(){
+            //按钮权限开始
+            function funBtn(){
+                $( "#btn-del" ).hide();
+                $( "#btn-edi" ).hide();
+
+                var viewArr = $.cookie("rsList").split(",");
+                for (var i = 0; i < viewArr.length; i++) {
+//                    console.log("第"+i+"个："+viewArr[i]);
+                    if(viewArr[i]=="Hd2") {$( "#btn-del" ).show();}
+                    if(viewArr[i]=="Hd1") {$( "#btn-edi" ).show();}
+                }//end for
+            }
+            funBtn();
+            /*第零步：把datatables插件的警告窗变成控制台打印*/
+            $.fn.dataTable.ext.errMode = 'none';
+            /* 第一步：展示数据列表 */
+            var tabData = $("#adm-user").DataTable({
+            "dom":'frtpi',
+                 "bLengthChange":false,
+                 bSort:true,
+                                    language: {
+                                        "sProcessing": "处理中...",
+                                        "sLengthMenu": "显示 _MENU_ 项结果",
+                                        "sZeroRecords": "没有匹配结果",
+                                        "sInfo": "共 _TOTAL_ 项",
+                                        "sInfoEmpty": "共 0 项",
+                                        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                                        "sInfoPostFix": "",
+                                        "sSearch": "搜索:",
+                                        "sUrl": "",
+                                        "sEmptyTable": "表中数据为空",
+                                        "sLoadingRecords": "载入中...",
+                                        "sInfoThousands": ",",
+                                        "oPaginate": {
+                                            "sFirst": "首页",
+                                            "sPrevious": "上页",
+                                            "sNext": "下页",
+                                            "sLast": "末页"
+                                        },
+                                            "oAria": {
+                                                "sSortAscending": ": 以升序排列此列",
+                                                "sSortDescending": ": 以降序排列此列"
+                                            }
+                                        },
+                ajax:{
+                    url:"/sdpk/aaUserPK?qqiu=list"
+                },
+
+                columns:[
+                    {"data":"uName"},
+                    {"data":"uLogUser"},
+                    {"data":"uPassWord"},
+                    {"data":"empName"}
+                ]
+            });
+            /* 第二步：选择列表进行操作(鼠标选中事件) */
+            var selTable = $("#adm-user tbody").on("click","tr",function(){
+                if($(this).hasClass("selected")){
+                    $(this).removeClass("selected")
+                }else{
+                    $('tr.selected').removeClass('selected');
+                    $(this).addClass("selected");
+                }
+            });
+            /* 第三步：删除按钮的事件 */
+            $("#btn-del").click(function(){
+                var delTableTr = {};
+                delTableTr = tabData.row(".selected").data();
+                tabData.row(".selected").remove().draw(false);//在页面进行删除操作
+                var delCon = delTableTr.uuid;
+                var delData = {};
+
+                delData.uuid = delCon;
+                /* ajax调用数据接口 */
+                $.ajax({
+                    url:"/sdpk/aaUserPK?qqiu=delete",
+                    type:"POST",
+                    data:JSON.stringify(delData),
+                    contentType:"application/json;charset=UTF-8",
+                    success:function(result){
+                        var obj = {};
+                        obj = JSON.parse(result);
+                        alert(obj.message);
+                        window.location.reload();//页面刷新
+                    }
+                });
+            });
+             //步骤4，对话框初始配置
+                $( "#dialog" ).dialog({
+                  autoOpen: false,
+                  show: {
+                    effect: "blind",
+                    duration: 1000
+                  },
+                  hide: {
+                    effect: "explode",
+                    duration: 1000
+                  }
+                });//end 4 外圈 dialog
+            /* 第四步：点击编辑按钮出现弹窗 */
+            //获取选中行的值，并把值给到弹窗相应的位置
+            /* S--获取下拉数据 */
+
+            $.ajax({
+                url:"/sdpk/aaRole?qqiu=list",
+                type:"GET",
+                contentType:"application/json;charset=UTF-8",
+                success:function(result){
+                    selFunction(result);
+                }
+            });
+            $.ajax({
+                url:"/sdpk/aaEmp?qqiu=list",
+                type: "GET",
+                //data: JSON.stringify(param),
+                ContentType: "application/json;charset=UTF-8",
+                success:function(result){
+                    //步骤1_a1，在步骤1的ajax的回调函数
+                    setFunction(result);
+                    // alert("下拉框加载完成");
+                }
+
+            });
+            function selFunction(result) {
+                var objSle = {};
+                objSle = JSON.parse(result);
+                var objData = objSle.data;
+                $("#infoSel").combobox({
+                    data:objData,
+                    valueField:"uuid",
+                    textField:"name",
+                    multiple:true,
+                    selectOnNavigation: false
+                });
+
+
+            }//end selFunction
+            function setFunction(result){
+                var objSet = {};
+                objSet = JSON.parse(result);
+                var objDate = objSet.data;
+                $("#ffSel").combobox({
+                    data:objDate,
+                    valueField:"uuid",
+                    textField:"name",
+                    multiple:false,
+                    selectOnNavigation: false
+                });
+            }
+
+            /* E--获取下拉数据 */
+
+            $("#btn-edi").click(function(){
+//            获取下拉框的所有内容
+                var delTableTr = {};//定义一个空的对象
+                delTableTr = tabData.row(".selected").data();//吧选中行的所有数据给到这个新的对象
+//                    console.log(delTableTr);
+                //吧获取到的值给到弹窗里面的value
+                $('input[name = "uName"]')[0].value = delTableTr.uName;
+                $('input[name = "uLogUser"]')[0].value = delTableTr.uLogUser;
+                $('input[name="uPassWord"]')[0].value = delTableTr.uPassWord;
+                var selShhuz = delTableTr.role;
+                var arr=[];
+                for(var i = 0;i<selShhuz.length;i++){
+                    arr[i]=selShhuz[i].uuid;
+                }
+                $('#infoSel').combobox('setValues',arr);
+                $('#ffSel').combobox('setValues',[delTableTr.empUuid]);
+                $( "#dialog" ).dialog( "open" );//出现编辑弹窗
+
+            });
+            /* 第五步：点击提交按钮事件 */
+            $("#confirm-d").click(function(){
+                var ediTab = {};//定义一个空的对象，用于存放选中行的数值
+                ediTab = tabData.row(".selected").data();
+                var sendTab = {};//定义一个空对象，用于存放修改后传送的数值
+                sendTab.uuid = ediTab.uuid;
+                sendTab.uName = $('input[name = "uName"]')[0].value;
+                sendTab.uLogUser = $('input[name = "uLogUser"]')[0].value;
+                sendTab.uPassWord = $('input[name="uPassWord"]')[0].value;
+                sendTab.empUuid = $('#ffSel').combobox("getValues")[0];
+                sendTab.roleList = $('#infoSel').combobox("getValues");
+                console.log(sendTab);
+                if(sendTab.uName==""||sendTab.uName==null){
+                    alert("请输入用户姓名");
+                    return false;
+                }
+                if(sendTab.uPassWord==""||sendTab.uPassWord==null){
+                    alert("请输入用户密码");
+                    return false;
+                }
+                if(sendTab.uLogUser==""||sendTab.uLogUser==null){
+                    alert("请输入用户账号");
+                    return false;
+                }
+                if(sendTab.roleList ==""||sendTab.roleList==null){
+                    alert("请选择用户角色");
+                    return false;
+                }
+                if(sendTab.empUuid ==""||sendTab.empUuid==null){
+                    console.log(sendTab.empUuid);
+                    alert("请选择公司员工");
+                    return false;
+                }
+                /* ajax数据的调用 */
+                $.ajax({
+                    url:"/sdpk/aaUserPK?qqiu=edit",
+                    type:"POST",
+                    data:JSON.stringify(sendTab),
+                    contentType:"application/json;charset=UTF-8",
+                    success:function(result){
+                        var obj = {};
+                        obj = JSON.parse(result);
+                        alert(obj.message);
+                       window.location.reload();
+                    }
+                });
+            });
+            //        控制页面下拉框
+            $('.combo ,.combo .combo-text').css({
+                "height":"36px",
+                "lineHeight":"34px",
+                "fontSize":"16px",
+                "color":"#646464",
+                "width":"216px"
+            });
+            $('.combo-arrow').css("height","34px");
+            $('.combo').css("width","250px");
+            /* 对话框关闭事件 */
+
+            $('.panel-tool ,#close-d').click(function(){
+                $( "#dialog" ).dialog( "close" );
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="tab-con" id="fen3a3_container">
+    <div id="header_1" >
+        <h2>用户管理</h2>
+    </div>
+    <div class="btn-main"  style="position: relative;z-index: 999;width:500px;">
+        <button class="btn-class" id="btn-del">删除</button>
+        <button class="btn-class" id="btn-edi">编辑</button>
+    </div>
+    <!--S--表格开始 -->
+    <table id="adm-user" class="display tab-mians" cellspacing="0" width="100%">
+        <thead class="tab-tit">
+            <tr>
+                <th style="min-width: 150px">用户姓名</th>
+                <th style="min-width: 150px">用户账号</th>
+                <th style="min-width: 150px">用户密码</th>
+                <th style="min-width: 150px">公司员工</th>
+            </tr>
+        </thead>
+        <tfoot class="tab-tit">
+            <tr>
+                <th style="min-width: 150px">用户姓名</th>
+                <th style="min-width: 150px">用户账号</th>
+                <th style="min-width: 150px">用户密码</th>
+                <th style="min-width: 150px">公司员工</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <th style="min-width: 150px">李老师</th>
+                <th style="min-width: 150px">sd1001</th>
+                <th style="min-width: 150px">shudai888</th>
+                <th style="min-width: 150px">shudai888</th>
+            </tr>
+        </tbody>
+    </table>
+    <!--E--表格结束 -->
+</div>
+<!-- S--编辑弹窗 -->
+<div id="dialog" title="用户编辑" class="easyui-dialog" closed="true" style="width:400px;height: 480px;padding-left: 20px;left:300px;top:160px;">
+    <form id="form-id" name="form_data">
+        <table class="tab-style">
+            <tr>
+                <td class="name-s" style="padding-left:0">用户姓名</td>
+                <td><input type="text" name="uName" class="yzss" style="width:250px;" value="请输入姓名"></td>
+            </tr>
+            <tr>
+                <td class="name-s" style="padding-left:0">用户账号</td>
+                <td><input type="text" name="uLogUser" class="yzss" style="width:250px;" value="请输入账号"></td>
+            </tr>
+            <tr>
+                <td class="name-s" style="padding-left:0">用户密码</td>
+                <td><input type="text" name="uPassWord" class="yzss" style="width:250px;" value="请输入密码"></td>
+            </tr><tr>
+            <td class="name-s" style="padding-left:0">用户角色</td>
+            <td>
+                <input id="infoSel" class="easyui-combobox yzss"data-options="editable:false" name="roleList" style="width:250px;height: 34px;">
+            </td>
+            </tr>
+            <tr>
+            <td class="name-s" style="padding-left:0">公司员工</td>
+            <td>
+                <input id="ffSel" class="easyui-combobox yzss"data-options="editable:false" name="empUuid" style="width:250px;height: 34px;">
+            </td>
+            </tr>
+        </table>
+    </form>
+    <div class="btn-box" style="margin-right: 27px;">
+        <button id="close-d"  class="easyui-linkbutton btn-xk">关闭</button>
+        <button id="confirm-d" class="easyui-linkbutton btn-qr">确认</button>
+    </div>
+</div>
+<!-- E--编辑弹窗 -->
+</body>
+</html>

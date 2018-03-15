@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>添加员工</title>
+	
+	<!-- <script type="text/javascript" src="../xppjs/jquery.js"></script> -->
+	<script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+	
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/icon.css"/>
+	<link rel="stylesheet" type="text/css" href="../HMcode/HMcss/4a1.css">
+
+	<script>
+	
+	//验证所有类名yzss输入框
+	function yzV1(){
+			var m = {};
+			// m=document.getElementsByTagName("input");
+			m=document.getElementsByClassName("yz-box");
+
+			for(var i=0;i<m.length;i++)
+			{
+					if(m[i].value==""||m[i].value==null)
+					{
+						alert("请填写所有输入框的值"+m[i].id);
+						return false;
+					}
+			}//end for
+			console.log("合同前两行输入框验证，有值！！");
+			return true;
+		}
+	
+	//验证日期输入框
+	function yzDate(){
+			var m = {};
+			// m=document.getElementsByTagName("input");
+			m=document.getElementById("workDate");
+			var c1 = $("#workDate").datebox("getValue");
+
+			
+					if(c1==""||c1==null)
+					{
+						alert("请填写日期框"+c1+"的值");
+						return false;
+					}
+			console.log("日期验证，有值！"+c1);
+			return true;
+		}
+		
+
+		function submitForm(){
+			var f1=yzV1();
+			var f2=yzDate();
+			var flag = false;
+			if(f1==true&&f2==true){flag = true;}
+			if (flag) {
+			//$('#ff').form('submit');
+			var param = $("#ff").serializeObject();
+			param.workDate = $('#workDate').datebox('getValue');
+			$.ajax({
+				
+				url:"/sdpk/aaEmp?qqiu=add",
+				type: "POST",
+				//data: JSON.stringify(param),
+				data: JSON.stringify(param),
+				contentType: "application/json;charset=UTF-8", 
+				success:function(result){
+                    var obj = JSON.parse(result);
+                    alert(obj.message);
+				//调用父级弹窗start
+            	var $parent = self.parent.$;
+            	$parent('#menu_d2').click();
+        		//调用父级弹窗end
+				}
+			 
+			});
+			}//end if(flag)
+		}//end function submitForm
+
+		function clearForm(){
+			$('#ff').form('clear');
+		};//end function clearForm
+
+
+	</script>
+
+	
+
+	<style type="text/css">
+		*{
+    		font-family:"黑体";
+    	}
+	</style>
+</head>
+<body>
+	
+	<div id="fen_container" class="tab-con">
+		<div id="ye_1_blank"></div>
+		<div id="ye_2_blank"></div>
+		<div id="ye_3_text_container">
+			<div id="header_1">
+				<h2>新增员工</h2>
+			</div>
+            <div id="header_2">
+            </div>
+
+            <div id="header_3_form">
+            	<form id="ff" method="post" > 
+            		<table id="header_3_tb1" class="tab-style">
+            		<!-- 第一行 -->
+            		<tr>
+	    			<td class="name-s" style="padding-left:0;width:78px;">姓&nbsp;&nbsp;&nbsp;&nbsp;名</td>
+	    			<td><input  type="text" name="name" class="yz-box yzss" placeholder="请输入姓名"> </td>
+	    			<td class="name-s" style="padding-left: 75px;width:87px;">&nbsp;性&nbsp;&nbsp;&nbsp;别</td>
+	    			<td>
+		    			<select  name="sex" class="yz-box yzss sel_s">
+							<option value="男">男</option>
+							<option value="女">女</option>
+						</select>
+	    			</td>
+	    			<td class="name-s">员工编号</td>
+	    			<td><input  type="text" name="empNum" class="yz-box yzss" placeholder="请输入员工编号"> </td>
+	    			</tr>
+	    			<!-- 第一行结束 -->
+	    			<!-- 第二行 -->
+            		<tr>
+						<td class="name-s" style="padding-left:0;width:78px">任职校区<!--<b>*</b>--></td>
+	    			<td>
+		    			<select  name="org" class="yz-box yzss sel_s">
+							<option value="所有校区">所有校区</option>
+							<option value="企业公馆校区">企业公馆校区</option>
+						</select>
+	    			</td>
+	    			<td class="name-s" style="width: 82px;">入职时间</td>
+	    			<td><input id="workDate" name="workDate" type="text" class="easyui-datebox" required="required"></td>
+
+	    			<td class="name-s" style="padding-left: 79px;">是否全职</td>
+	    			<td>
+		    			<select  name="fullhalf" class="yz-box yzss sel_s">
+							<option value="全职">全职</option>
+							<option value="兼职">兼职</option>
+						</select>
+	    			</td>
+	    			</tr>
+	    			<!-- 第二行结束 -->
+	    			<!-- 第三行开始 -->
+
+	    			<tr>
+	    			<td class="name-s" style="padding-left:0;width: 80px;">部&nbsp;&nbsp;&nbsp;&nbsp;门</td>
+	    			<td>
+		    			<select  name="depart" class="yz-box yzss sel_s">
+							<option >请选择</option>
+							<option value="产品部">产品部</option>
+							<option value="市场部">市场部</option>
+							<option value="教学部">教学部</option>
+							<option value="人事行政部">人事行政部</option>
+						</select>
+	    			</td>
+	    			<td class="name-s" style="width: 80px;">职&nbsp;&nbsp;&nbsp;&nbsp;位</td>
+	    			<td>
+						<input  type="text" name="job" class="yz-box yzss " placeholder="请输入职位">
+		    			<!--<select  name="job" class="yz-box yzss sel_s">-->
+							<!--<option value="校长">校长</option>-->
+							<!--<option value="主任">主任</option>-->
+							<!--<option value="任课老师">任课老师</option>-->
+						<!--</select>-->
+	    			</td>
+	    			<td class="name-s">班&nbsp;主&nbsp;任</td>
+	    			<td>
+		    			<select  name="claTeacher" class="yz-box yzss sel_s">
+							<option value="true">是</option>
+							<option value="false">否</option>
+						</select>
+	    			</td>
+	    			</tr>
+	    			<!-- 第三行结束 -->
+            		</table><!-- end id=header_3_tb1 -->
+
+            		<table id="header_3_tb2" class="tab-style">
+            		<!-- 第一行 -->
+            		<tr>
+	    			<td class="name-s" style="padding-left:0;width:86px;">职位备注</td>
+	    			<td><input  type="text" name="jobRemark" style="width:934px;" class="yzss tc_td" value="无"></td>
+	    			</tr>
+	    			<!-- 第一行结束 -->
+            		</table> <!-- end id为 header_3_tb2 -->
+	    			<table id="header_3_tb3" class="tab-style">
+	    			<!-- 第二行 -->
+            		<tr>
+
+	    			<td class="name-s" style="padding-left:0;width:78px;">联系电话</td>
+	    			<td><input  type="text" name="phone" style="width:934px;" class="yz-box yzss" placeholder="请输入联系电话"></td>
+	    			</tr>
+	    			<!-- 第二行结束 -->
+            		</table><!-- end  id= header_3_tb3 -->
+
+            		<table id="header_3_tb4" class="tab-style">
+            		<!-- 第一行 -->
+            		<tr>
+	    			<td class="name-s" style="padding-left:0;width:78px;">个人备注</td>
+	    			<td><input  type="text" name="remark" style="width:934px;" class="yzss tc_td" value="无"></td>
+	    			</tr>
+	    			<!-- 第一行结束 -->
+            		</table> <!-- end id为 header_3_tb4 -->
+
+            		
+            		
+            	</form>
+            	<!-- 按钮div开始 -->
+            	<div class="btn-box" style="margin-right: 3px;">
+	    			<a href="javascript:void(0)" class="easyui-linkbutton btn-xk" onclick="clearForm()">清空</a>
+	    			<a href="javascript:void(0)" class="easyui-linkbutton btn-qr" onclick="submitForm()">确认</a>
+	   			 </div>
+	   			 <!-- 按钮div结束 -->
+            </div><!-- end div  header_3_form-->
+
+		</div><!-- end div  ye_3_text_container-->
+
+
+	</div><!-- end div  id="fen_container"-->
+	<!-- S--公用弹窗 -->
+	<div class="alert-main">
+		<p class="alert-con">此条学生信息已删除</p>
+		<a class="close-item">×</a>
+	</div>
+	<script>
+        $(function () {
+            $('.close-item').click(function(){
+                $('.alert-main').hide()
+            })
+        })
+	</script>
+	<!-- E--公用弹窗 -->
+</body>
+<!--修改日期输入框样式-->
+<script>
+    $(function(){
+        $('.combo').css({
+            "height":"34px",
+            "width":"200px"
+        });
+        $('.combo .combo-text').css({
+            "height":"34px",
+            "width":"160px"
+        });
+    })
+</script>
+</html>

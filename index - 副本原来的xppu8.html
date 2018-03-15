@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="content-type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
+    <title>树袋老师</title>
+
+    <!-- idTabs链接文件 -->
+    
+    <!-- <script type="text/javascript" src="xppjs/jquery.js"></script> -->
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.min.js"></script> 
+    <script src="xppjs/jquery.idTabs.js"></script>
+    <script type="text/javascript" src="xppjs/jquery.cookie.js"></script>
+    <!-- easyui链接文件 -->
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="easyui_xpp/jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="easyui_xpp/DataTables/datatables.js"></script>
+    <!-- xpp的链接文件 -->
+    <link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/gray/easyui.css"/>
+    <link   rel="stylesheet" type="text/css" href="easyui_xpp/jquery-easyui-136/themes/icon.css"/>
+    
+    <!-- 
+    <script src="jquery.js"></script>
+    <link  rel="stylesheet"  href="themes/default/easyui.css"  type="text/css"  />
+    <link  rel="stylesheet"  href="themes/icon.css"  type="text/css"  />
+     -->
+
+    <!-- 
+    <script  type="text/javascript"  src="js/jquery-1.8.2.js" ></script>
+    <script  type="text/javascript"  src="js/jquery.easyui.min.js" ></script>
+    <script  type="text/javascript"  src="js/easyui-lang-zh_CN.js"></script>
+    
+    .idTabs a { display:block; background:#222; color:snow; padding:0 13px; font:bold 25pt Arial; text-decoration:none; }
+     -->
+
+    <style> 
+
+    	*{
+    		font-family:"黑体";
+    	}
+
+    	.div-a{ background: no-repeat;width:1440px;height: 5px;padding:7px;box-sizing:border-box;}  /*用于阴影shadow*/
+        #menu ul { height:944px;width:100%;float:left;list-style:none;
+margin:0px; padding:0;text-align:center;}
+        #menu li { list-style:none; /*Try deleting this float*/ 
+            margin-bottom:0px; margin:0px;
+            font-size:12px;
+            color:#353535;
+            text-align: center;
+         }
+        #menu img{
+            display: block;
+            max-width: 100%;
+            height:45px;
+            margin:0 auto;
+        }
+        #menu a.selected { background:#9B9B9B; color:#000;}
+        #menu a{display:block; width:100%;height: 110px;text-decoration:none; text-align:center;
+            color:#FFFFFF;padding-top:20px;box-sizing:border-box;font-size:16px;}
+        #menu i{
+            font-style: normal;
+            padding-top: 15px;
+            display: block;
+        }
+        #menu_sub ul { height:944px;width:100%;float:left;list-style:none;
+                    margin:0px; padding:0;}
+        #menu_sub li { list-style:none; /*Try deleting this float*/ 
+            margin-bottom:0px; margin:0px; text-align: center;
+         }
+        #menu_sub a.selected { background:#dcdcdc; color:#000;}
+        #menu_sub a{display:block;line-height: 33px;text-decoration:none;color:#000000;}
+        .trans-arr{
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+    	
+    </style>
+
+    <script type="text/javascript">
+
+    /*var NameOfCookie="rsList";
+        var c = document.cookie.indexOf(NameOfCookie+"="); 
+        // alert(c);
+              if (c != -1)
+              {
+            console.log("第一次js检测已经登陆");
+              }
+              else
+              {
+               alert("没有登陆");
+               window.location.href="login.html";
+              }*/
+
+
+    $(document).ready(function() {
+
+
+
+        //开始判断cookie值
+        // var HasData = {};
+        //  HasData = $.cookie("rsList");
+
+        // if($.cookie("rsList")!=null){
+            
+        // }else if($.cookie("rsList") = null){
+            
+
+        // }
+        // 调用主入口
+        funUser();
+
+         function funUser(){
+
+            //取出cookie用户名ckUserName
+            // var ck_uName = $.cookie("ckUserName");
+            // console.log("取出用户名"+ck_uName);
+            // $(".user-name").html(ck_uName);
+               //一级菜单权限开始
+        // $( "#menu_1" ).hide();
+        // $( "#menu_2" ).hide();
+        // $( "#menu_3" ).hide();
+        // $( "#menu_4" ).hide();
+        // $( "#menu_5" ).hide();
+        // $( "#menu_6" ).hide();
+        // $( "#menu_7" ).hide();
+        // $( "#menu_8" ).hide();
+
+        //取cookie里的数组
+        /*var viewArr = $.cookie("rsList").split(",");
+        for (var i = 0; i < viewArr.length; i++) {
+        console.log("第"+i+"个："+viewArr[i]);   
+        if(viewArr[i]=="A") {$( "#menu_1" ).show();}  
+        if(viewArr[i]=="B") {$( "#menu_2" ).show();}
+        if(viewArr[i]=="C") {$( "#menu_3" ).show();}
+        if(viewArr[i]=="D") {$( "#menu_4" ).show();}
+        if(viewArr[i]=="E") {$( "#menu_5" ).show();}
+        if(viewArr[i]=="F") {$( "#menu_6" ).show();}
+        if(viewArr[i]=="G") {$( "#menu_7" ).show();}
+        if(viewArr[i]=="H") {$( "#menu_8" ).show();}                              
+        }//end for*/
+
+        //一级菜单权限结束
+
+        //二级权限开始
+        // $( "#menu_a1" ).hide();
+        // console.log("进入了隐藏二级菜单!");
+        // $( "#menu_a2" ).hide();
+        // $( "#menu_a3" ).hide();
+        // $( "#menu_a4" ).hide();
+        // $( "#menu_a5" ).hide();
+        // $( "#menu_b1" ).hide();
+        // $( "#menu_b2" ).hide();
+        // $( "#menu_b3" ).hide();
+        
+        
+
+
+        /*for (var i = 0; i < viewArr.length; i++) {
+        // console.log("第"+i+"个："+viewArr[i]);   
+        if(viewArr[i]=="Ae") {$( "#menu_a1" ).show();}  //我的今日课，班主任
+        if(viewArr[i]=="Ab") {$( "#menu_a2" ).show();} //全校今日课程
+        if(viewArr[i]=="Ac") {$( "#menu_a3" ).show();} //学生课消统计
+        if(viewArr[i]=="Ad") {$( "#menu_a4" ).show();} //老师课消统计
+        if(viewArr[i]=="Aa") {$( "#menu_a5" ).show();} //我的今日课，老师
+
+        if(viewArr[i]=="Ba") {$( "#menu_b1" ).show();}
+        if(viewArr[i]=="Bb") {$( "#menu_b2" ).show();}
+        if(viewArr[i]=="Bc") {$( "#menu_b3" ).show();}
+
+
+        if(viewArr[i]=="Ca") {$( "#menu_c1" ).show();}
+        if(viewArr[i]=="Cb") {$( "#menu_c2" ).show();}
+        if(viewArr[i]=="Cc") {$( "#menu_c3" ).show();}
+
+                              
+        }//end for*/
+        //二级权限结束
+
+        //单击一级菜单
+        $( "#menu_1" ).click(function() { 
+        document.getElementById("menu_a0").click();
+        });//end 7 外圈 单击
+
+        $( "#menu_2" ).click(function() { 
+        document.getElementById("menu_b3").click();
+        });//end 7 外圈 单击
+
+        $( "#menu_3" ).click(function() { 
+        document.getElementById("menu_c3").click();
+        });//end 7 外圈 单击
+
+
+        //单击二级菜单************************************************************
+             $( "#menu_a0" ).click(function(){
+
+                 document.getElementById('ifr1a0').src="easyui_xpp/QD_1a0.html";
+                 // alert("点击了我的今日课程--班主任");
+                 console.log("点击了欢迎页");
+             });
+             $( "#menu_a1" ).click(function(){
+
+                 document.getElementById('ifr1a1').src="easyui_xpp/QD_1a1.html";
+                 // alert("点击了我的今日课程--班主任");
+                 console.log("点击了新增渠道");
+             });
+             $( "#menu_a2" ).click(function(){
+
+                 document.getElementById('ifr1a2').src="easyui_xpp/QD_1a2.html";
+                 // alert("点击了全校今日课程");
+                 console.log("点击了管理渠道");
+             });
+             $( "#menu_a3" ).click(function(){
+
+                 document.getElementById('ifr1a3').src="easyui_xpp/QD_1a3.html";
+                 // alert("点击了学生课消统计");
+                 console.log("点击了我的渠道");
+             });
+             
+
+
+             $( "#menu_b1" ).click(function(){
+                 document.getElementById('ifr2a1').src="easyui_xpp/QD_2a1.html";
+                 // alert("点击了新增学员");
+                 console.log("点击了新增员工");
+             });
+        $( "#menu_b2" ).click(function(){
+            document.getElementById('ifr2a2').src="easyui_xpp/QD_2a2.html";
+            // alert("点击了管理学员");
+            console.log("点击了管理员工");
+        });
+
+
+
+             $( "#menu_c1" ).click(function(){
+                 document.getElementById('ifr3a1').src="easyui_xpp/QD_3a1.html";
+                 // alert("点击了新增班级");
+                 console.log("点击了用户新增");
+             });
+
+        $( "#menu_c2" ).click(function(){
+
+            document.getElementById('ifr3a2').src="easyui_xpp/QD_3a2.html";
+            // alert("点击了管理班级");
+            console.log("点击了用户的管理");
+        });
+
+             $( "#menu_c3" ).click(function(){
+
+                 document.getElementById('ifr3a3').src="easyui_xpp/QD_3a3.html";
+                 // alert("点击了管理班级");
+                 console.log("点击了角色新增");
+             });
+
+             $( "#menu_c4" ).click(function(){
+
+                 document.getElementById('ifr3a4').src="easyui_xpp/QD_3a4.html";
+                 // alert("点击了管理班级");
+                 console.log("点击了角色的管理");
+             });
+
+             $( "#menu_c5" ).click(function(){
+
+                 document.getElementById('ifr3a5').src="easyui_xpp/QD_3a5.html";
+                 // alert("点击了管理班级");
+                 console.log("点击了部门新增");
+             });
+
+             $( "#menu_c6" ).click(function(){
+
+                 document.getElementById('ifr3a6').src="easyui_xpp/QD_3a6.html";
+                 // alert("点击了管理班级");
+                 console.log("点击了部门的管理");
+             });
+
+
+        //单击二级菜单结束
+            };//end 方法 funUser
+
+        //登陆调用的funUser方法结束了
+        $( "#btnOut" ).click(function(){
+            // $.cookie("ckUserEmpUuid","");//删除cookie用null
+            // $.cookie("rsList","");//删除cookie用null
+            // $.cookie('ckUlog',"");
+            console.log("退出登陆!!!");
+            window.location.href="login.html";
+        });
+
+        $( "#btnPWD" ).click(function(){
+            window.location.href="easyui_xpp/0a1.html";
+                 // alert("点击了密码设置");
+                 console.log("点击了密码设置");
+             });
+
+} );//end 最外层 $(document).ready
+        
+    </script>
+    <style>
+        #menu_sub p{
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body style="margin:0;padding:0;min-width:1440px;">
+    <div id="container" style="height: 984px;background-color:#F2F2F2;">
+
+        <div id="header" style="background-color:#FFFFFF;height: 50px;box-shadow: 0 2px 2px #ccc; position:relative;">
+            <img style="display: block;position:absolute;max-width:100%;height:40px;float: left;margin-left:20px;margin-top:5px;" title="logo" src="HMcode_QD/HMimages/logo-02.png">
+            <h1 style="font-size:25px; color:#000; line-height: 50px; text-align: center;padding:0;margin:0;">树袋老师</h1>
+            <div class="xl-box" style="position:absolute; right:43px;top: 15px;color:#5e5e5e;">
+                <i class="user-name" style="font-style: normal;font-size:16px;
+line-height: 28px;">宋瑛瑛</i>
+                <span class="arrow-box" style="cursor: pointer"><img class="" src="HMcode_QD/HMimages/arrow-ss.png"></span>
+                <ul class="part-xl" style="display:none;width:100px;margin:0;position: absolute;top: 40px; right: -10px;color:#5e5e5e;background-color: white;padding:6px 10px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;-webkit-box-shadow: 0 0 4px #ccc;-moz-box-shadow:0 0 4px #ccc;box-shadow: 0 0 4px #ccc;">
+                    <span style="color: white;position: absolute;top: -13px;left:40px;text-shadow: 0 -2px 2px #ccc;">▲</span>
+                    <!-- 
+                    <li style="padding:0;margin:0; list-style: none;font-size:16px;line-height: 34px;text-align: center"><a href="#" style="color:#5e5e5e; text-decoration: none;">个人信息</a> </li>
+                    
+                    <li style="padding:0;margin:0; list-style: none;font-size:16px;line-height: 34px;text-align: center"><a href="#" style="color:#5e5e5e; text-decoration: none;">账号绑定</a> </li>
+                     -->
+                    <!-- 只留退出登录,其它功能后面看需求 -->
+                    <li id="btnPWD" style="padding:0;margin:0; list-style: none;font-size:16px;line-height: 34px;text-align: center"><a href="#one_0" style="color:#5e5e5e; text-decoration: none;">密码设置</a> </li>
+                    <li id="btnOut" style="padding:0;margin:0; list-style: none;font-size:16px;line-height: 34px;text-align: center"><a href="#" style="color:#5e5e5e; text-decoration: none;" >退出登录</a> </li>
+                </ul>
+            </div>
+        </div>
+        <!--<div id="pwinShowDown" class="div-a" style="width:1440px;height: 5px;"></div>-->
+
+            <div id="menu" class="idTabs" style="background-color:#4A4A4A;height:944px;/*width:145px;*/width:9%;min-width:110px;float:left;">
+                <ul>
+                <li style="height: 45px;"></li>
+                <li>
+                    <a id="menu_1" class="selected" href="#one">
+                        <img src="icon_xpp/menu_1_main.png">
+                        <i>渠道</i>
+                    </a>
+                </li>
+                <li >
+                    <a id="menu_2"  href="#two">
+                        <img src="icon_xpp/menu_4_emp.png">
+                        <i>员工</i>
+                    </a>
+                </li>
+                <li>
+                    <a id="menu_3" href="#three">
+                        <img src="icon_xpp/menu_8_set.png">
+                        <i>设置</i>
+                    </a>
+                </li>
+              </ul>
+            </div>
+             
+             <!-- start menu_sub子菜单div -->   
+            <div id="menu_sub" class="idTabs"  style="background-color:#F2F2F2;height:944px;/*width:170px;*/width:10%;min-width:132px;float:left;box-sizing:border-box;border-right: 1px solid #d2d2d2;">
+                
+                    
+                    <div id="one" >
+                        <ul>
+                        	<li><p style="text-align:center;font-size:24px;line-height:56px;box-sizing:border-box;">渠道</p></li>
+                        	<li><a id="menu_a0" href="#one_0" class="selected">欢迎页</a></li>
+                            <li><a id="menu_a1" href="#one_1" >新增渠道</a></li>
+                            <li><a id="menu_a2" href="#one_2" >管理渠道</a></li>
+                            <li><a id="menu_a3" href="#one_3">我的渠道</a></li>
+            
+                        </ul>
+                        
+                  </div>
+                  <div id="two" >
+                        <ul>
+                        	<li><p style="text-align:center;font-size:24px;line-height:56px;box-sizing:border-box;">员工</p></li>
+                            <li><a id="menu_b1" href="#two_1">新增员工</a></li>
+                            <li><a id="menu_b2" href="#two_2" >管理员工</a></li>
+                        </ul>
+                  </div>
+                  <div id="three" >
+                        <ul>
+                        	<li><p style="text-align:center;font-size:24px;line-height:56px;box-sizing:border-box;">设置</p></li>
+                            <li><a id="menu_c1" href="#three_1">用户新增</a></li>
+                            <li><a id="menu_c2" href="#three_2">用户的管理</a></li>
+                            <li><a id="menu_c3" href="#three_3">角色新增</a></li>
+                            <li><a id="menu_c4" href="#three_4">角色的管理</a></li>
+                            <li><a id="menu_c5" href="#three_5">部门新增</a></li>
+                            <li><a id="menu_c6" href="#three_6">部门的管理</a></li>
+                        </ul>
+
+                  </div>
+                  
+                  
+
+            </div><!-- end menu_sub子菜单div -->
+
+            <!-- start 内容容器div -->
+            <div id="content_container" style="background-color:#F2F2F2;width:80%;height: 944px;float:left;">
+                <div id="content_header" style="background-color:#F2F2F2;min-width:1100px;width:80%;height:73px;"></div>
+                <div id="menu_blank"></div>
+                <div id="menu_content" class="idTabs" style="background-color:#FFFFFF;width:96%;margin-left: 2%;margin-right:2%;height:850px;float:left;">
+                <!-- <b>内容区域</b><br> -->
+
+                        <div id="one_0">
+                           <iframe id="ifr1a0" name="ifrname" src="easyui_xpp/QD_1a0.html"    style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;"frameborder="0"></iframe>
+                        </div>
+
+                        <div id="one_1">
+                           <iframe id="ifr1a1" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;"frameborder="0"></iframe>
+                        </div>
+
+
+
+
+                        <div id="two_1" >
+                            
+                            <!-- <p style="text-align:center;font-size:20px;box-sizing:border-box;">内容two_1</p> -->
+                            <iframe id="ifr2a1"  style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="two_2" >
+                            <iframe id="ifr2a2" name="ifrname"    style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+
+                        <div id="three_1" >
+                            <!--<iframe id="ifr3a1" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>-->
+                            <iframe id="ifr3a1" name="ifrname"    style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="three_2">
+                            <iframe id="ifr3a2" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="three_3" >
+                            <iframe id="ifr3a3" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="three_4" >
+                            <iframe id="ifr3a4" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="three_5" >
+                            <iframe id="ifr3a5" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+                        <div id="three_6" >
+                            <iframe id="ifr3a6" name="ifrname"   style="box-sizing:border-box;overflow-x: scroll;overflow-y: hidden;min-width:1120px;width:100%;height: 850px;" frameborder="0"></iframe>
+                        </div>
+
+
+                        <!--开始 six 排课暂时留空 todo -->
+
+
+                        <!-- 结束 six 排课暂时留空 todo  -->
+
+                        
+                </div>
+                
+                <!-- <div id="content_header" style="background-color:#FFA500;width:1125px;height:73px;float:left;"> 
+						.div-b{ background:#000;padding:5px;} 
+					url(div-a-bg.png)
+					box-sizing:border-box;是用于设置padding不增加元素宽度和高度
+                -->
+
+            </div> <!-- end 内容容器div -->
+                    
+
+                <!--<div id="footer" style="background-color:#FFFFFF;clear:both;text-align:center;">-->
+                            <!--版权：上海浅枫计算机网络</div>-->
+
+    </div>             
+
+
+    <div id="pwin" scrolling="no" ></div><!-- 空div 用来给子页面弹出窗口 -->
+    </body>
+<script>
+    /* 顶部下拉 */
+    $(function(){
+        $('.arrow-box img ,.user-name').click(function(){
+            $('.arrow-box img').toggleClass("trans-arr");
+            if($('.part-xl').is(":hidden")){
+                $('.part-xl').show();
+                $(this).animate("transform","rotate(180deg)");
+            }else{
+                $('.part-xl').hide();
+                $(this).animate("transform","rotate(180deg)");
+            }
+        })
+    })
+</script>
+
+
+    </html>

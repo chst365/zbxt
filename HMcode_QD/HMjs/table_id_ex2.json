@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "name": "001",
+            "score": "A",
+            "time": "3"
+        },
+ 	{
+            "name": "002",
+            "score": "B",
+            "time": "3"
+        },
+ 	{
+            "name": "003",
+            "score": "A",
+            "time": "5"
+        },
+ 	{
+            "name": "004",
+            "score": "A",
+            "time": "3"
+        },
+ 	{
+            "name": "005",
+            "score": "AA",
+            "time": "8"
+        },
+ 	{
+            "name": "006",
+            "score": "D",
+            "time": "4"
+        }
+    ]
+}

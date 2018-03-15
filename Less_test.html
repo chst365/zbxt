@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta name="content-type" content="text/html; charset=utf-8">
+<meta charset="UTF-8">
+<head>
+    <title> New Document </title>
+
+    <script id=clientEventHandlersJS language=javascript>
+      function getBrowserInfo()
+      {
+        var agent = navigator.userAgent.toLowerCase() ;
+        var regStr_edge = /rv\:[\d.]+/gi ;
+        var regStr_ie = /msie [\d.]+;/gi ;
+        var regStr_ff = /firefox\/[\d.]+/gi
+        var regStr_chrome = /chrome\/[\d.]+/gi ;
+        var regStr_saf = /safari\/[\d.]+/gi ;
+//        Edage
+        if(agent.indexOf("rv") > 0 && agent.indexOf("firefox") < 0)
+        {
+          return agent.match(regStr_edge);
+        }
+//IE
+        if(agent.indexOf("msie") > 0)
+        {
+          return agent.match(regStr_ie) ;
+        }
+
+//firefox
+        if(agent.indexOf("firefox") > 0)
+        {
+          return agent.match(regStr_ff) ;
+        }
+
+//Chrome
+        if(agent.indexOf("chrome") > 0)
+        {
+          return agent.match(regStr_chrome) ;
+        }
+
+//Safari
+        if(agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0)
+        {
+          return agent.match(regStr_saf) ;
+        }
+
+      }
+      var browser = getBrowserInfo() ;
+      var an = (browser+"").replace(/[^0-9.]/ig,"");
+      var ana = (browser+"").replace(/[^a-z]/ig,"");
+        if(ana=='msie'&&Number(an)<10){
+          window.stop ? window.stop() : document.execCommand("Stop");
+        }
+//      if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
+//        alert("您的浏览器版本过低，请下载IE9及以上版本");
+//      }
+    </script>
+
+</head>
+
+<body>
+
+</body>
+
+</html>

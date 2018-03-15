@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>修改密码</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- 老的 -->
+        <script src="../assets/js/jquery-1.8.2.min.js"></script>
+        <!--<script src="assets/js/supersized.3.2.7.min.js"></script>
+        <script src="assets/js/supersized-init.js"></script>-->
+        <script src="../assets/js/scripts.js"></script>
+
+        <!-- 新的 -->
+        <script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+        <script type="text/javascript" src="../xppjs/jquery.cookie.js"></script>
+
+        <!-- CSS 
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+        -->
+        
+        <link rel="stylesheet" href="../assets/css/reset.css">
+        <!--<link rel="stylesheet" href="assets/css/supersized.css">-->
+        <!--<link rel="stylesheet" href="assets/css/style.css">-->
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#uLogUser').val($.cookie('ckUlog'));
+                $( "#btn_denlu" ).click(function() {
+                    var send_edit_data = {};
+                    send_edit_data.uLogUser = document.getElementById("uLogUser").value;
+                    send_edit_data.uPassWord = document.getElementById("uPassWord").value;
+                    if(send_edit_data.uPassWord !=$.cookie('keyMM')){
+                        alert("旧密码输入错误");
+                        return false;
+                    }
+                    send_edit_data.uNewPassWord = document.getElementById("uNewPassWord1").value;
+                    if(send_edit_data.uNewPassWord ==""||send_edit_data.uNewPassWord ==null){
+                        alert("新密码不能为空");
+                        return false;
+                    }
+                    if(document.getElementById("uNewPassWord1").value == document.getElementById("uNewPassWord2").value){
+                        $.ajax({
+                            url:"/sdpk/aaUserPKpass?qqiu=edit",
+                            type: "POST",
+                            data: JSON.stringify(send_edit_data),
+                            contentType: "application/json;charset=UTF-8",
+                            success:function(result){
+                                var obj = JSON.parse(result);
+                                alert(obj.message);
+                                window.location.href="../login.html";
+                            }//end 方法 success
+                        });
+                    }else {
+                        alert("两次输入的密码不一致，请重新输入");
+                        return false;
+                    }
+
+                });//end 7 外圈 close
+
+
+            } );//end 最外层 $(document).ready
+
+
+        </script>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+                font-family: "黑体";
+            }
+            body{
+                background: #F2F2F2;
+            }
+            .page-container{
+                width:750px;
+                height:510px;
+                position: absolute;
+                left:50%;
+                top:50%;
+                margin-left:-375px;
+                margin-top:-255px;
+                background-color: white;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
+                -webkit-box-shadow: 0 0 5px #ccc;
+                -moz-box-shadow: 0 0 5px #ccc;
+                box-shadow: 0 0 5px #ccc;
+                z-index: 99;
+            }
+            img{
+                border:none;
+                max-width: 100%;
+            }
+            .logo-box{
+                width:173px;
+                height:136px;
+                margin:0 auto;
+                margin-top:30px;
+            }
+            input{
+                display: block;
+                background-color: white;
+                margin:14px auto 0;
+                width:250px;
+                height: 40px;
+                padding-left: 10px;
+                line-height: 38px;
+                border:1px solid #d7d7d7;
+                font-size:16px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                color:#9B9BB9;
+                text-shadow: none;
+            }
+            ::-webkit-input-placeholder { /* WebKit browsers */
+                color:    #9B9BB9;
+            }
+            :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                color:    #999;
+            }
+            ::-moz-placeholder { /* Mozilla Firefox 19+ */
+                color:   #9B9BB9;
+            }
+            :-ms-input-placeholder { /* Internet Explorer 10+ */
+                color:    #9B9BB9;
+            }
+            input:focus{
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+
+            }
+            button{
+                width:250px;
+                height:40px;
+                margin-left:250px;
+                margin-top:14px;
+                color:white;
+                line-height: 40px;
+                text-align: center;
+                background: #9B9B9B;
+                border:none;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                font-size:16px;
+                font-weight: normal;
+            }
+            button:hover{
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+            }
+            .copy-right{
+                font-size:14px;
+                color:#9B9B9B;
+                width:100%;
+                text-align: center;
+                position: fixed;
+                bottom:20px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="page-container">
+            <div class="logo-box">
+                <img src="../HMcode/HMimages/logo-l.png">
+            </div>
+                <input id="uLogUser" name="uLogUser" class="username" value="请输入账号" disabled="disabled">
+                <input type="password" id="uPassWord" name="uPassWord" class="password"  placeholder="请输入密码">
+                <input type="password"  name="uNewPassWord" id="uNewPassWord1" class="password"  placeholder="请输入修改密码">
+                <input type="password"  name="uNewPassWord" id="uNewPassWord2" class="password"  placeholder="请确认修改密码">
+                <button id="btn_denlu" class="login-btn">确认修改</button>
+<!--
+                <div class="error"><span>+</span></div>
+-->
+         </div>
+
+        <!-- Javascript -->
+        
+<!--<p class="copy-right">版权：上海浅枫计算机网络</p>-->
+    </body>
+
+</html>
+

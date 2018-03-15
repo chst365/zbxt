@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>部门新增</title>
+	
+	<!-- <script type="text/javascript" src="../xppjs/jquery.js"></script> -->
+	<script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>  
+
+	<script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+	<script type="text/javascript" src="DataTables/datatables.js"></script>
+	
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+	<link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/icon.css"/>
+	<link   rel="stylesheet" type="text/css" href="DataTables/datatables.css"/>
+	<link   rel="stylesheet" type="text/css" href="../HMcode/HMcss/8a1.css">
+
+	<script>
+		
+
+		function submitForm(){
+			//$('#ff').form('submit');
+			var param = $("#ff").serializeObject();
+            if(param.name==''){
+                alert('部门名称不能为空');
+			}else{
+                $.ajax({
+
+                    url:"/sdpk/aaDepartment?qqiu=add",
+                    type: "POST",
+                    //data: JSON.stringify(param),
+                    data: JSON.stringify(param),
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(result){
+                        var obj = JSON.parse(result);
+                        alert(obj.message);
+                        //调用父级弹窗start
+                        var $parent = self.parent.$;
+                        $parent('#menu_h8').click();
+                        //调用父级弹窗end
+                    }
+
+                });
+			}
+
+			
+		}//end function submitForm
+
+		function clearForm(){
+			$('#ff').form('clear');
+		};//end function clearForm
+
+
+	</script>
+
+
+</head>
+<body>
+	
+	<div id="fen_container"  class="tab-con">
+
+		<div id="ye_1_blank" ></div>
+		<div id="ye_2_blank" ></div>
+
+		<div id="ye_3_text_container" >
+			<div id="header_1" >
+            <h2>新增部门</h2></div>
+
+            <div id="header_2">
+            </div>
+            <div id="header_3_form" >
+            	<form id="ff" method="post" > 
+            		<table id="header_3_tb1" class="tab-style">
+            		<!-- 第一行 -->
+            		<tr>
+	    			<td class="name-s" style="padding-left:0">部门名称</td>
+	    			<td><input  type="text" name="name" class="yzss" placeholder="请输入教室名称"> </td>
+	    			</tr>
+	    			<!-- 第一行结束 -->
+            		</table><!-- end id=header_3_tb1 -->
+
+            		<!--<table id="header_3_tb2" class="tab-style">
+            		&lt;!&ndash; 第一行 &ndash;&gt;
+            		<tr>
+	    			<td class="name-s" style="padding-left:0">所属校区</td>
+	    			<td>
+		    			<select  name="campus"  class="yzss sel_s">
+							<option value="所有校区">所有校区</option>
+							<option value="企业公馆校区">企业公馆校区</option>
+						</select>
+	    			</td>
+	    			</tr>
+	    			&lt;!&ndash; 第一行结束 &ndash;&gt;
+            		</table> --><!-- end id为 header_3_tb2 -->
+            		<table id="header_3_tb4" class="tab-style">
+            		<!-- 第一行 -->
+            		<tr>
+	    			<td class="name-s" style="padding-left:0">备注介绍</td>
+	    			<td><input  type="text" name="remark" class="yzss tc_td" value="无"></td>
+	    			</tr>
+	    			<!-- 第一行结束 -->
+					
+            		</table> <!-- end id为 header_3_tb4 -->
+
+            	</form>
+            	<!-- 按钮div开始 -->
+            	<div class="btn-box" style="margin-right: 7px;">
+	    			<a href="javascript:void(0)" class="easyui-linkbutton btn-xk" onclick="clearForm()">清空</a>
+	    			<a href="javascript:void(0)" class="easyui-linkbutton btn-qr" onclick="submitForm()">确认</a>
+	   			 </div>
+	   			 <!-- 按钮div结束 -->
+            </div><!-- end div  header_3_form-->
+
+		</div><!-- end div  ye_3_text_container-->
+
+
+	</div><!-- end div  id="fen_container"-->
+	<!-- S--公用弹窗 -->
+	<div class="alert-main">
+		<p class="alert-con">此条学生信息已删除</p>
+		<a class="close-item">×</a>
+	</div>
+	<script>
+        $(function () {
+            $('.close-item').click(function(){
+                $('.alert-main').hide()
+            })
+        })
+	</script>
+	<!-- E--公用弹窗 -->
+</body>
+</html>

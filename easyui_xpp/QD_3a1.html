@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户新增</title>
+    <script type="text/javascript" src="jquery-easyui-136/jquery.min.js"></script>
+
+    <script type="text/javascript" src="jquery-easyui-136/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="jquery-easyui-136/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../xppjs/jquery.serialize-object.js"></script>
+    <script type="text/javascript" src="DataTables/datatables.js"></script>
+
+    <link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/gray/easyui.css"/>
+    <link   rel="stylesheet" type="text/css" href="jquery-easyui-136/themes/icon.css"/>
+    <link   rel="stylesheet" type="text/css" href="DataTables/datatables.css"/>
+    <link  rel="stylesheet" type="text/css" href="../HMcode/HMcss/8a4.css"/>
+    <script>
+        $(document).ready(function(){
+            /* 清空事件 */
+            $('#clearAll').click(function(){
+                $(':input').val("");
+            });
+
+            //获取课程下拉框数据L4和R3
+            $.ajax({
+                url:"/sdpk/aaRole?qqiu=list",
+                type: "GET",
+                //data: JSON.stringify(param),
+                contentType: "application/json;charset=UTF-8",
+                success:function(result){
+                    //步骤1_a1，在步骤1的ajax的回调函数
+                    huiFuncR4(result);
+                    // alert("下拉框加载完成");
+                }
+
+            });
+
+            //步骤1_xR3，在步骤1的ajax的回调函数,展示列表数据
+            function huiFuncR4(result){
+                // alert("回调中");
+                var objR4 = {};
+                objR4 = JSON.parse(result);
+                var a2dataR4 = objR4.data;
+                $('#roleList').combobox({
+                    data: a2dataR4,
+                    valueField: 'uuid',
+                    textField: 'name',
+                    multiple:true,
+                    selectOnNavigation: false
+                });
+
+            }// end huiFuncR4 外圈
+            //获取课程下拉框数据L4和R3
+            $.ajax({
+                url:"/sdpk/aaEmp?qqiu=list",
+                type: "GET",
+                //data: JSON.stringify(param),
+                ContentType: "application/json;charset=UTF-8",
+                success:function(result){
+                    //步骤1_a1，在步骤1的ajax的回调函数
+                    huiFuncF4(result);
+                    // alert("下拉框加载完成");
+                }
+
+            });
+            //步骤1_xR3，在步骤1的ajax的回调函数,展示列表数据
+            function huiFuncF4(result){
+                // alert("回调中");
+                var objF4 = {};
+                objF4 = JSON.parse(result);
+                var a2dataF4 = objF4.data;
+                $('#ffList').combobox({
+                    data: a2dataF4,
+                    valueField: 'uuid',
+                    textField: 'name',
+                    multiple:false,
+                    selectOnNavigation: false
+                });
+
+            }// end huiFuncF4 外圈
+
+            /* 表单提交事件 */
+            $('#submit').click(function(){
+                var objSel = {};
+                console.log($('#count-tab').serializeObject());
+                objSel = $('#count-tab').serializeObject();
+                objSel.empUuid = $('#ffList').combobox("getValues")[0];
+                objSel.roleList = $('#roleList').combobox("getValues");
+                console.log(objSel);
+                if(objSel.roleList ==""||objSel.roleList==null){
+                    alert("请选择用户角色");
+                    return false;
+                }
+                if(objSel.uLogUser ==""||objSel.uLogUser==null){
+                    alert("请输入用户账号");
+                    return false;
+                }
+                if(objSel.uPassWord ==""||objSel.uPassWord==null){
+                    alert("请输入用户密码");
+                    return false;
+                }
+                if(objSel.uName ==""||objSel.uName==null){
+                    alert("请输入用户姓名");
+                    return false;
+                }
+                if(objSel.empUuid ==""||objSel.empUuid==null){
+                    alert("请选择公司员工");
+                    return false;
+                }
+                $.ajax({
+                    url:"/sdpk/aaUserPK?qqiu=add",
+                    type:"POST",
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(objSel),
+                    success:function(result){
+                        var obj = {};
+                        obj = JSON.parse(result);
+                      alert(obj.message);
+                        var $parent = self.parent.$;
+                        $parent('#menu_h4').click();
+                    }
+                });
+            });
+
+//        控制页面下拉框
+            $('.combo ,.combo .combo-text').css({
+                "height":"36px",
+                "lineHeight":"34px",
+                "display":"inline-block",
+                "fontSize":"16px",
+                "color":"#646464"
+            });
+            $('.combo-arrow').css("height","34px");
+        })
+    </script>
+</head>
+<body>
+<div class="tab-con">
+    <div id="header_1" >
+        <h2>用户新增</h2>
+    </div>
+    <!--S--表格开始 -->
+    <form id="count-tab">
+        <ul class="tab-style">
+            <li class="fir"><i class="name-s">用户姓名</i><input type="text" id="uName" name="uName" class="yzss" placeholder="请输入姓名"></li>
+            <li><i class="name-s">用户账号</i><input type="text" id="uLogUser" name="uLogUser" class="yzss" placeholder="请输入账号"></li>
+            <li><i class="name-s">用户密码</i><input type="text" id="uPassWord" name="uPassWord" class="yzss" placeholder="请输入密码"></li>
+            <li class="fir" style="margin-top:20px;">
+                <i class="name-s" style="margin-right: -7px;width: 66px;">角&nbsp;&nbsp;&nbsp;&nbsp;色</i>
+                <input id="roleList" class="easyui-combobox yzss"data-options="editable:false" style="width:200px;height: 34px;" name="roleList">
+            </li>
+            <li  style="margin-top:20px;">
+                <i class="name-s" style="margin-right: -7px;">公司员工</i>
+                <input id="ffList" class="easyui-combobox yzss" data-options="editable:false" style="width:200px;height: 34px;" name="empUuid">
+            </li>
+
+        </ul>
+    </form>
+    <!--E--表格结束 -->
+    <div class="btn-box" style="margin-right: 3px;">
+        <button  class="btn-xk" id="clearAll">清空</button>
+        <button  class="btn-qr" id="submit">确认</button>
+    </div>
+</div>
+</body>
+
+</html>
